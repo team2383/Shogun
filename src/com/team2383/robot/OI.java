@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
+@SuppressWarnings("unused")
 public class OI {
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
@@ -40,16 +41,16 @@ public class OI {
 		return Math.abs(x) > Constants.inputDeadband ? x : 0;
 	};
 
-	public static Gamepad gamepad = new Gamepad(0);
+	public static Gamepad driver = new Gamepad(0); //  Matt
 
-	public static Button shiftDown = gamepad.getLeftShoulder();
-	public static Button shiftUp = gamepad.getRightShoulder();
-	public static Button toggleAutoShift = gamepad.getButtonA();
+	public static Button shiftDown = driver.getLeftShoulder();
+	public static Button shiftUp = driver.getRightShoulder();
+	public static Button toggleAutoShift = driver.getButtonA();
 
-	public static DoubleSupplier leftStick = () -> deadband.applyAsDouble(gamepad.getLeftY());
-	public static DoubleSupplier rightStick = () -> deadband.applyAsDouble(gamepad.getRightX());
+	public static DoubleSupplier leftStick = () -> deadband.applyAsDouble(driver.getLeftY());
+	public static DoubleSupplier rightStick = () -> deadband.applyAsDouble(driver.getRightX());
 
-	public static Joystick operator = new Joystick(2);
+	public static Joystick operator = new Joystick(2); // Anurag
 
 	public static Button feedIn = new JoystickButton(operator, 8);
 	public static Button feedOutFast = new JoystickButton(operator, 5);

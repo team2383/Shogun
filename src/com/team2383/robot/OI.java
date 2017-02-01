@@ -10,7 +10,8 @@ import com.team2383.ninjaLib.LambdaButton;
 import com.team2383.ninjaLib.Values;
 import com.team2383.ninjaLib.SetState;
 
-import com.team2383.robot.Constants.Preset;
+import static com.team2383.robot.HAL.feeder;
+
 import com.team2383.robot.subsystems.Drivetrain.Gear;
 import com.team2383.robot.subsystems.Feeder;
 
@@ -51,6 +52,8 @@ public class OI {
 	public static Joystick operator = new Joystick(2);
 
 	public static Button feedIn = new JoystickButton(operator, 8);
+	public static Button feedOutFast = new JoystickButton(operator, 5);
+	public static Button feedOutSlow = new JoystickButton(operator, 6);
 
 	public OI() {
 		//shiftDown.whileHeld(new ShiftTo(Gear.LOW));

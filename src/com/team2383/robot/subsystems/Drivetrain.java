@@ -1,21 +1,15 @@
 package com.team2383.robot.subsystems;
 
-//bring in HAL
-import static com.team2383.robot.HAL.leftEncoder;
-import static com.team2383.robot.HAL.leftTwo;
-import static com.team2383.robot.HAL.leftThree;
-import static com.team2383.robot.HAL.rightEncoder;
-import static com.team2383.robot.HAL.rightTwo;
-import static com.team2383.robot.HAL.rightThree;
-import static com.team2383.robot.HAL.shifter;
 
 import com.team2383.robot.Constants;
 import com.team2383.robot.OI;
 import com.team2383.robot.commands.TeleopDrive;
-
+import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.FeedbackDeviceStatus;
 import com.ctre.CANTalon.TalonControlMode;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -24,6 +18,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Drivetrain extends Subsystem implements PIDSource {
 	private final RobotDrive robotDrive;
+	
+	private CANTalon leftEncoder;
+	private CANTalon leftTwo;
+	private CANTalon leftThree;
+	
+	private CANTalon rightEncoder;
+	private CANTalon rightTwo;
+	private CANTalon rightThree;
+	
+	private DoubleSolenoid shifter;
 
 	public enum Gear {
 		LOW, HIGH;
@@ -39,8 +43,8 @@ public class Drivetrain extends Subsystem implements PIDSource {
 
 		leftEncoder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		leftEncoder.reverseSensor(false);
-		leftEncoder.setPID(Constants.driveHoldPositionP, Constants.driveHoldPositionI, Constants.driveHoldPositionD,
-				Constants.driveHoldPositionF, Constants.driveHoldPositionIZone, 0, 1);
+		leftEncoder.setPID(Constants.kDriveHoldPositionP, Constants.kDriveHoldPositionI, Constants.kDriveHoldPositionD,
+				Constants.kDriveHoldPositionF, Constants.kDriveHoldPositionIZone, 0, 1);
 		leftTwo.changeControlMode(TalonControlMode.Follower);
 		leftTwo.set(leftEncoder.getDeviceID());
 		leftThree.changeControlMode(TalonControlMode.Follower);
@@ -48,8 +52,8 @@ public class Drivetrain extends Subsystem implements PIDSource {
 
 		rightEncoder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		rightEncoder.reverseSensor(true);
-		rightEncoder.setPID(Constants.driveHoldPositionP, Constants.driveHoldPositionI, Constants.driveHoldPositionD,
-				Constants.driveHoldPositionF, Constants.driveHoldPositionIZone, 0, 1);
+		rightEncoder.setPID(Constants.kDriveHoldPositionP, Constants.kDriveHoldPositionI, Constants.kDriveHoldPositionD,
+				Constants.kDriveHoldPositionF, Constants.kDriveHoldPositionIZone, 0, 1);
 		rightTwo.changeControlMode(TalonControlMode.Follower);
 		rightTwo.set(rightEncoder.getDeviceID());
 		rightThree.changeControlMode(TalonControlMode.Follower);
@@ -143,12 +147,12 @@ public class Drivetrain extends Subsystem implements PIDSource {
 	}
 
 	public double getInches() {
-		return getRotations() * Constants.driveWheelCircumference;
+		return getRotations() * Constants.kDriveWheelCircumference;
 	}
 
 	// Feet per Seconds
 	public double getSpeed() {
-		return getVelocity() * Constants.driveWheelCircumference / 12.0 / 60.0;
+		return getVelocity() * Constants.kDriveWheelCircumference / 12.0 / 60.0;
 	}
 
 	@Override

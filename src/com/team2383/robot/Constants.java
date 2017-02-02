@@ -86,6 +86,8 @@ public class Constants {
 	public static double kDriveHoldPositionD = 0.0;
 	public static double kDriveHoldPositionF = 0;
 	public static int kDriveHoldPositionIZone = 50;
+	
+	public static double kPidSetpointWait = 0.15;
 
 	public static double inputExpo = 0.32;
 	public static double inputDeadband = 0.05;

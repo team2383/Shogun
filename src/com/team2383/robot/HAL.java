@@ -1,9 +1,12 @@
 package com.team2383.robot;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.team2383.robot.subsystems.Drivetrain;
 import com.team2383.robot.subsystems.Feeder;
 import com.team2383.robot.subsystems.Hopper;
 import com.team2383.robot.subsystems.Turret;
+
+import edu.wpi.first.wpilibj.SPI;
 
 public class HAL {
 	
@@ -12,4 +15,6 @@ public class HAL {
 	public static Feeder feeder = new Feeder();
 	public static Hopper hopper = new Hopper();
 	public static Turret turret = new Turret();
+	
+	public static AHRS navX = new AHRS(SPI.Port.kMXP);
 }

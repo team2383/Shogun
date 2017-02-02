@@ -11,9 +11,11 @@ import com.team2383.ninjaLib.Values;
 import com.team2383.ninjaLib.SetState;
 
 import static com.team2383.robot.HAL.feeder;
+import static com.team2383.robot.HAL.hopper;
 
 import com.team2383.robot.subsystems.Drivetrain.Gear;
 import com.team2383.robot.subsystems.Feeder;
+import com.team2383.robot.subsystems.Hopper;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -59,13 +61,22 @@ public class OI {
 	public static Button feedIn = new JoystickButton(operator, 8);
 	public static Button feedOutFast = new JoystickButton(operator, 5);
 	public static Button feedOutSlow = new JoystickButton(operator, 6);
-
+	
+	public static Button hopIn = new JoystickButton(operator, 9);
+	public static Button hopOutFast = new JoystickButton(operator,10);
+	public static Button hopOutSlow = new JoystickButton(operator,11);
+	
 	public OI() {
 		//shiftDown.whileHeld(new ShiftTo(Gear.LOW));
 		//shiftUp.whileHeld(new ShiftTo(Gear.HIGH));
 
 		feedIn.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.FEEDING, Feeder.State.STOPPED));
-		feedOutSlow.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.OUTFEEDINGSLOW, Feeder.State.STOPPED));
 		feedOutFast.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.OUTFEEDING, Feeder.State.STOPPED));
+		feedOutSlow.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.OUTFEEDINGSLOW, Feeder.State.STOPPED));
+		
+		hopIn.whileHeld(new SetState<Hopper.State>(hopper, Hopper.State.FEEDING, Hopper.State.STOPPED));
+		hopOutFast.whileHeld(new SetState<Hopper.State>(hopper, Hopper.State.OUTFEEDING, Hopper.State.STOPPED));
+		hopOutSlow.whileHeld(new SetState<Hopper.State>(hopper, Hopper.State.OUTFEEDINGSLOW, Hopper.State.STOPPED));
+		
 	}
 }

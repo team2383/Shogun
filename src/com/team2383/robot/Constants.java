@@ -10,6 +10,13 @@ public class Constants {
 	public static final int kFeederRightTalonID = 8;
 	
 	/*
+	 * Hopper Constants
+	 */
+	
+	public static final int kHopperTalonID = 11;
+	public static final int kAgitatorTalonID = 12;
+	
+	/*
 	 * Turret Constants
 	 */
 	public static final int kLittleFlywheelTalonID = 9;

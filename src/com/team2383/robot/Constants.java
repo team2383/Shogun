@@ -15,7 +15,8 @@ public class Constants {
 	public static final int kLittleFlywheelTalonID = 9;
 	public static final int kBigFlywheelTalonID = 10;
 	public static final int kTurretTalonID = 10;
-	public static final int kRPMTolerance = 100;
+	public static final int kShifterForward = 0;
+	public static final int kShifterReverse = 1;
 	
 
 	public static double kShooterRPMTolerance = 50;

@@ -1,29 +1,31 @@
 package com.team2383.robot.subsystems;
 
-//bring in HAL
-import static com.team2383.robot.HAL.leftEncoder;
-import static com.team2383.robot.HAL.leftTwo;
-import static com.team2383.robot.HAL.leftThree;
-import static com.team2383.robot.HAL.rightEncoder;
-import static com.team2383.robot.HAL.rightTwo;
-import static com.team2383.robot.HAL.rightThree;
-import static com.team2383.robot.HAL.shifter;
-
 import com.team2383.robot.Constants;
 import com.team2383.robot.OI;
-import com.team2383.robot.commands.TeleopDrive;
-
+//import com.team2383.robot.commands.TeleopDrive;
+import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.FeedbackDeviceStatus;
 import com.ctre.CANTalon.TalonControlMode;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Drivetrain extends Subsystem implements PIDSource {
+public class Drivetrain extends Subsystem {
 	private final RobotDrive robotDrive;
+	
+	private final CANTalon leftMaster;
+	private final CANTalon leftSlaveOne;
+	private final CANTalon leftSlaveTwo;
+	private final CANTalon rightMaster;
+	private final CANTalon rightSlaveOne;
+	private final CANTalon rightSlaveTwo;
+	private final DoubleSolenoid shifter;
 
 	public enum Gear {
 		LOW, HIGH;
@@ -36,38 +38,55 @@ public class Drivetrain extends Subsystem implements PIDSource {
 
 	public Drivetrain() {
 		super("Drivetrain");
+		
+		/*
+		 * Initialize drive talons
+		 */
+		
+		leftMaster = new CANTalon(Constants.kLeftMasterTalonID);
+		leftSlaveOne = new CANTalon(Constants.kLeftSlaveOneTalonID);
+		leftSlaveTwo = new CANTalon(Constants.kLeftSlaveOneTalonID);
 
-		leftEncoder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		leftEncoder.reverseSensor(false);
-		leftEncoder.setPID(Constants.driveHoldPositionP, Constants.driveHoldPositionI, Constants.driveHoldPositionD,
-				Constants.driveHoldPositionF, Constants.driveHoldPositionIZone, 0, 1);
-		leftTwo.changeControlMode(TalonControlMode.Follower);
-		leftTwo.set(leftEncoder.getDeviceID());
-		leftThree.changeControlMode(TalonControlMode.Follower);
-		leftThree.set(leftEncoder.getDeviceID());
+		rightMaster = new CANTalon(Constants.kRightMasterTalonID);
+		rightSlaveOne = new CANTalon(Constants.kRightSlaveOneTalonID);
+		rightSlaveTwo = new CANTalon(Constants.kRightSlaveOneTalonID);
 
-		rightEncoder.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		rightEncoder.reverseSensor(true);
-		rightEncoder.setPID(Constants.driveHoldPositionP, Constants.driveHoldPositionI, Constants.driveHoldPositionD,
-				Constants.driveHoldPositionF, Constants.driveHoldPositionIZone, 0, 1);
-		rightTwo.changeControlMode(TalonControlMode.Follower);
-		rightTwo.set(rightEncoder.getDeviceID());
-		rightThree.changeControlMode(TalonControlMode.Follower);
-		rightThree.set(rightEncoder.getDeviceID());
+		shifter = new DoubleSolenoid(Constants.kShifterForward, Constants.kShifterReverse);
+		
+		/*
+		 * Configure drive talons 
+		 */
+		leftMaster.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		leftMaster.reverseSensor(false);
+		leftMaster.setPID(Constants.kDriveHoldPositionP, Constants.kDriveHoldPositionI, Constants.kDriveHoldPositionD,
+				Constants.kDriveHoldPositionF, Constants.kDriveHoldPositionIZone, 0, 1);
+		leftSlaveOne.changeControlMode(TalonControlMode.Follower);
+		leftSlaveOne.set(leftMaster.getDeviceID());
+		leftSlaveTwo.changeControlMode(TalonControlMode.Follower);
+		leftSlaveTwo.set(leftMaster.getDeviceID());
 
-		this.robotDrive = new RobotDrive(leftEncoder, rightEncoder);
+		rightMaster.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		rightMaster.reverseSensor(true);
+		rightMaster.setPID(Constants.kDriveHoldPositionP, Constants.kDriveHoldPositionI, Constants.kDriveHoldPositionD,
+				Constants.kDriveHoldPositionF, Constants.kDriveHoldPositionIZone, 0, 1);
+		rightSlaveOne.changeControlMode(TalonControlMode.Follower);
+		rightSlaveOne.set(rightMaster.getDeviceID());
+		rightSlaveTwo.changeControlMode(TalonControlMode.Follower);
+		rightSlaveTwo.set(rightMaster.getDeviceID());
+
+		this.robotDrive = new RobotDrive(leftMaster, rightMaster);
 		robotDrive.setSafetyEnabled(false);
 	}
 
 	public void tank(double leftValue, double rightValue) {
-		leftEncoder.changeControlMode(TalonControlMode.PercentVbus);
-		rightEncoder.changeControlMode(TalonControlMode.PercentVbus);
+		leftMaster.changeControlMode(TalonControlMode.PercentVbus);
+		rightMaster.changeControlMode(TalonControlMode.PercentVbus);
 		robotDrive.tankDrive(leftValue, rightValue);
 	}
 
 	public void arcade(double driveSpeed, double turnSpeed) {
-		leftEncoder.changeControlMode(TalonControlMode.PercentVbus);
-		rightEncoder.changeControlMode(TalonControlMode.PercentVbus);
+		leftMaster.changeControlMode(TalonControlMode.PercentVbus);
+		rightMaster.changeControlMode(TalonControlMode.PercentVbus);
 		robotDrive.arcadeDrive(driveSpeed, turnSpeed);
 	}
 
@@ -94,8 +113,8 @@ public class Drivetrain extends Subsystem implements PIDSource {
 	}
 
 	public void resetEncoders() {
-		leftEncoder.setPosition(0);
-		rightEncoder.setPosition(0);
+		leftMaster.setPosition(0);
+		rightMaster.setPosition(0);
 	}
 
 	public Gear getGear() {
@@ -110,14 +129,14 @@ public class Drivetrain extends Subsystem implements PIDSource {
 
 	public double getRotations() {
 		double rotations;
-		if (leftEncoder.isSensorPresent(
+		if (leftMaster.isSensorPresent(
 				FeedbackDevice.CtreMagEncoder_Relative) == FeedbackDeviceStatus.FeedbackStatusNotPresent)
 			return 0;
-		if (rightEncoder.isSensorPresent(
+		if (rightMaster.isSensorPresent(
 				FeedbackDevice.CtreMagEncoder_Relative) == FeedbackDeviceStatus.FeedbackStatusNotPresent)
 			return 0;
 		try {
-			rotations = (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2.0;
+			rotations = (leftMaster.getPosition() + rightMaster.getPosition()) / 2.0;
 		} catch (Throwable e) {
 			System.out.println("Failed to get encoder rotations of drivetrain");
 			rotations = 0;
@@ -127,14 +146,14 @@ public class Drivetrain extends Subsystem implements PIDSource {
 
 	public double getVelocity() {
 		double rotations;
-		if (leftEncoder.isSensorPresent(
+		if (leftMaster.isSensorPresent(
 				FeedbackDevice.CtreMagEncoder_Relative) == FeedbackDeviceStatus.FeedbackStatusNotPresent)
 			return 0;
-		if (rightEncoder.isSensorPresent(
+		if (rightMaster.isSensorPresent(
 				FeedbackDevice.CtreMagEncoder_Relative) == FeedbackDeviceStatus.FeedbackStatusNotPresent)
 			return 0;
 		try {
-			rotations = (leftEncoder.getSpeed() + rightEncoder.getSpeed())/2.0;
+			rotations = (leftMaster.getSpeed() + rightMaster.getSpeed())/2.0;
 		} catch (Throwable e) {
 			System.out.println("Failed to get encoder speed of drivetrain");
 			rotations = 0;
@@ -143,37 +162,22 @@ public class Drivetrain extends Subsystem implements PIDSource {
 	}
 
 	public double getInches() {
-		return getRotations() * Constants.driveWheelCircumference;
+		return getRotations() * Constants.kDriveWheelCircumference;
 	}
 
 	// Feet per Seconds
 	public double getSpeed() {
-		return getVelocity() * Constants.driveWheelCircumference / 12.0 / 60.0;
+		return getVelocity() * Constants.kDriveWheelCircumference / 12.0 / 60.0;
 	}
 
 	@Override
 	protected void initDefaultCommand() {
-		this.setDefaultCommand(new TeleopDrive(OI.leftStick, OI.rightStick, () -> OI.toggleAutoShift.get(),
-				() -> OI.shiftDown.get(), () -> OI.shiftUp.get()));
-	}
-
-	@Override
-	public void setPIDSourceType(PIDSourceType pidSource) {
-	}
-
-	@Override
-	public PIDSourceType getPIDSourceType() {
-		return PIDSourceType.kDisplacement;
-	}
-
-	@Override
-	public double pidGet() {
-		return getInches();
+		this.setDefaultCommand(new InstantCommand());
 	}
 
 	public void setBrake(boolean brake) {
-		leftEncoder.enableBrakeMode(brake);
-		rightEncoder.enableBrakeMode(brake);
+		leftMaster.enableBrakeMode(brake);
+		rightMaster.enableBrakeMode(brake);
 	}
 
 	public void enableBrake() {

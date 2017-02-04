@@ -10,7 +10,6 @@ import com.team2383.ninjaLib.LambdaButton;
 import com.team2383.ninjaLib.Values;
 import com.team2383.ninjaLib.SetState;
 
-import com.team2383.robot.Constants.Preset;
 import com.team2383.robot.subsystems.Drivetrain.Gear;
 import com.team2383.robot.subsystems.Feeder;
 
@@ -57,7 +56,5 @@ public class OI {
 		//shiftUp.whileHeld(new ShiftTo(Gear.HIGH));
 
 		feedIn.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.FEEDING, Feeder.State.STOPPED));
-		feedOutSlow.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.OUTFEEDINGSLOW, Feeder.State.STOPPED));
-		feedOutFast.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.OUTFEEDING, Feeder.State.STOPPED));
 	}
 }

@@ -1,8 +1,8 @@
 package com.team2383.robot.subsystems;
 
 import com.team2383.robot.Constants;
-import com.team2383.robot.OI;
 //import com.team2383.robot.commands.TeleopDrive;
+
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.FeedbackDeviceStatus;
@@ -10,15 +10,12 @@ import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Drivetrain extends Subsystem {
 	private final RobotDrive robotDrive;
-	
 	private final CANTalon leftMaster;
 	private final CANTalon leftSlaveOne;
 	private final CANTalon leftSlaveTwo;

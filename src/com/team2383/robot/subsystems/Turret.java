@@ -87,7 +87,7 @@ public class Turret extends Subsystem {
 		return Math.abs(getBigWheelRPM() - bigFlywheel.getSetpoint()) <= Constants.kShooterRPMTolerance;
 	}
 	
-	public boolean isLittleMotorAtSetpoint() {
+	public boolean isLittleWheelAtSetpoint() {
 		return Math.abs(getLittleWheelRPM() - littleFlywheel.getSetpoint()) <= Constants.kShooterRPMTolerance;
 	}
 	

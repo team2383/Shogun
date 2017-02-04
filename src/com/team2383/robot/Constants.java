@@ -10,6 +10,13 @@ public class Constants {
 	public static final int kFeederRightTalonID = 8;
 	
 	/*
+	 * Hopper Constants
+	 */
+	
+	public static final int kHopperTalonID = 11;
+	public static final int kAgitatorTalonID = 12;
+	
+	/*
 	 * Turret Constants
 	 */
 	public static final int kLittleFlywheelTalonID = 9;
@@ -80,6 +87,8 @@ public class Constants {
 	public static double kDriveHoldPositionD = 0.0;
 	public static double kDriveHoldPositionF = 0;
 	public static int kDriveHoldPositionIZone = 50;
+	
+	public static double kPidSetpointWait = 0.15;
 
 	public static double inputExpo = 0.32;
 	public static double inputDeadband = 0.05;

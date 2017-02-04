@@ -8,6 +8,8 @@ import com.team2383.ninjaLib.DPadButton.Direction;
 import com.team2383.ninjaLib.Gamepad;
 import com.team2383.ninjaLib.LambdaButton;
 import com.team2383.ninjaLib.Values;
+import com.team2383.robot.subsystems.Feeder;
+import com.team2383.robot.subsystems.Hopper;
 import com.team2383.ninjaLib.SetState;
 
 import edu.wpi.first.wpilibj.Joystick;

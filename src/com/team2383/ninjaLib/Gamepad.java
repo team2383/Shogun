@@ -1,6 +1,7 @@
 package com.team2383.ninjaLib;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -15,23 +16,20 @@ public class Gamepad extends Joystick {
 	private static final int AXIS_SHOULDER_R = 3;
 	private static final int AXIS_RIGHT_X = 4;
 	private static final int AXIS_RIGHT_Y = 5;
-	private static final int AXIS_DPAD = 6;
 
 	// Gamepad buttons
-	private static final int BUTTON_A = 2;
-	private static final int BUTTON_B = 3;
-	private static final int BUTTON_X = 1;
-	private static final int BUTTON_Y = 4;
+	public static final int BUTTON_A = 1;
+	public static final int BUTTON_B = 2;
+	public static final int BUTTON_X = 3;
+	public static final int BUTTON_Y = 4;
 	public static final int BUTTON_SHOULDER_LEFT = 5;
 	public static final int BUTTON_SHOULDER_RIGHT = 6;
 	public static final int BUTTON_TRIGGER_LEFT = 7;
 	public static final int BUTTON_TRIGGER_RIGHT = 8;
-	private static final int BUTTON_BACK = 9;
-	private static final int BUTTON_START = 10;
-	private static final int BUTTON_LEFT_STICK = 11;
-	private static final int BUTTON_RIGHT_STICK = 12;
-	private static final int BUTTON_MODE = -1;
-	private static final int BUTTON_LOGITECH = -1;
+	public static final int BUTTON_BACK = 7;
+	public static final int BUTTON_START = 8;
+	public static final int BUTTON_LEFT_STICK = 9;
+	public static final int BUTTON_RIGHT_STICK = 10;
 
 	/**
 	 * Constructor that creates a Joystick object.
@@ -125,25 +123,16 @@ public class Gamepad extends Joystick {
 	}
 
 	/**
-	 * Return the DPad axis positions.
-	 */
-	public double getDPadX() {
-		return getRawAxis(AXIS_DPAD);
-	}
-
-	/**
 	 * DPad Left and Right only WPILIB cannot access the vertical axis of the
 	 * Logitech Game Controller Dpad
 	 */
 
 	public boolean getDPadLeft() {
-		double x = getDPadX();
-		return x < -0.5;
+		return getPOV() == 270;
 	}
 
 	public boolean getDPadRight() {
-		double x = getDPadX();
-		return x > 0.5;
+		return getPOV() == 90;
 	}
 
 	/**
@@ -185,11 +174,15 @@ public class Gamepad extends Joystick {
 		return new JoystickButton(this, BUTTON_RIGHT_STICK);
 	}
 
-	public JoystickButton getLeftTriggerClick() {
-		return new JoystickButton(this, BUTTON_TRIGGER_LEFT);
+	public Button getLeftTriggerClick() {
+		return WPILambdas.createButton(() -> {
+			return getRawAxis(AXIS_SHOULDER_L) > 0.7;
+			});
 	}
 
-	public JoystickButton getRightTriggerClick() {
-		return new JoystickButton(this, BUTTON_TRIGGER_RIGHT);
+	public Button getRightTriggerClick() {
+		return WPILambdas.createButton(() -> {
+			return getRawAxis(AXIS_SHOULDER_R) > 0.7;
+			});
 	}
 }

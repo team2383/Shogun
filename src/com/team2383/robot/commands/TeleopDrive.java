@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TeleopDrive extends Command {
-	private final DoubleSupplier rightStick;
-	private final DoubleSupplier leftStick;
+	private final DoubleSupplier turn;
+	private final DoubleSupplier throttle;
 	private final BooleanSupplier toggleAutoShift;
 	private final BooleanSupplier lowGear;
 	private final BooleanSupplier highGear;
@@ -25,11 +25,11 @@ public class TeleopDrive extends Command {
 	private double lastCheck;
 	private Gear gear;
 
-	public TeleopDrive(DoubleSupplier leftStick, DoubleSupplier rightStick, BooleanSupplier toggleAutoShift, BooleanSupplier lowGear,  BooleanSupplier highGear) {
+	public TeleopDrive(DoubleSupplier throttle, DoubleSupplier turn, BooleanSupplier toggleAutoShift, BooleanSupplier lowGear,  BooleanSupplier highGear) {
 		super("Teleop Drive");
 		requires(drivetrain);
-		this.leftStick = leftStick;
-		this.rightStick = rightStick;
+		this.throttle = throttle;
+		this.turn = turn;
 		this.toggleAutoShift = toggleAutoShift;
 		this.lowGear = lowGear;
 		this.highGear = highGear;
@@ -47,8 +47,8 @@ public class TeleopDrive extends Command {
 
 	@Override
 	protected void execute() {
-		boolean notTurning = Math.abs(rightStick.getAsDouble()) < 0.2;
-		DoubleSupplier throttle = leftStick;
+		boolean notTurning = Math.abs(turn.getAsDouble()) < 0.2;
+		DoubleSupplier _throttle = throttle;
 		if (this.toggleAutoShift.getAsBoolean() && !dirty) {
 			autoShift = !autoShift;
 			dirty = true;
@@ -77,13 +77,13 @@ public class TeleopDrive extends Command {
 			}
 		}
 		if (gear == Gear.HIGH) {
-			throttle = () -> {
-				double val = leftStick.getAsDouble();
-				return (val > 0.9) ? 0.9 : val;
+			_throttle = () -> {
+				double val = throttle.getAsDouble();
+				return (val > 1.0) ? 1.0 : val;
 			};
 		}
 		drivetrain.shiftTo(gear);
-		cdh.cheesyDrive(drivetrain, leftStick.getAsDouble(), rightStick.getAsDouble(), gear == Gear.HIGH);
+		cdh.cheesyDrive(drivetrain, throttle.getAsDouble(), turn.getAsDouble(), gear == Gear.HIGH);
 		SmartDashboard.putBoolean("Automatic Shifting", autoShift);
 		SmartDashboard.putBoolean("Dirty Automatic Shifting", dirty);
 		SmartDashboard.putBoolean("Toggle Automatic Shifting", this.toggleAutoShift.getAsBoolean());

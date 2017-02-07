@@ -1,8 +1,9 @@
 package com.team2383.robot.subsystems;
 
 import com.team2383.robot.Constants;
+import com.team2383.robot.OI;
 //import com.team2383.robot.commands.TeleopDrive;
-
+import com.team2383.robot.commands.TeleopDrive;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.FeedbackDeviceStatus;
@@ -42,11 +43,11 @@ public class Drivetrain extends Subsystem {
 		
 		leftMaster = new CANTalon(Constants.kLeftMasterTalonID);
 		leftSlaveOne = new CANTalon(Constants.kLeftSlaveOneTalonID);
-		leftSlaveTwo = new CANTalon(Constants.kLeftSlaveOneTalonID);
+		leftSlaveTwo = new CANTalon(Constants.kLeftSlaveTwoTalonID);
 
 		rightMaster = new CANTalon(Constants.kRightMasterTalonID);
 		rightSlaveOne = new CANTalon(Constants.kRightSlaveOneTalonID);
-		rightSlaveTwo = new CANTalon(Constants.kRightSlaveOneTalonID);
+		rightSlaveTwo = new CANTalon(Constants.kRightSlaveTwoTalonID);
 
 		shifter = new DoubleSolenoid(Constants.kShifterForward, Constants.kShifterReverse);
 		
@@ -169,7 +170,7 @@ public class Drivetrain extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		this.setDefaultCommand(new InstantCommand());
+		this.setDefaultCommand(new TeleopDrive(OI.throttle, OI.turn, OI.toggleAutoShift::get, OI.shiftDown::get, OI.shiftUp::get));
 	}
 
 	public void setBrake(boolean brake) {

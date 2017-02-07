@@ -8,9 +8,10 @@ import com.team2383.ninjaLib.DPadButton.Direction;
 import com.team2383.ninjaLib.Gamepad;
 import com.team2383.ninjaLib.LambdaButton;
 import com.team2383.ninjaLib.Values;
+import com.team2383.ninjaLib.WPILambdas;
 import com.team2383.robot.subsystems.Feeder;
-import com.team2383.robot.subsystems.Hopper;
-import com.team2383.ninjaLib.SetState;
+import com.team2383.robot.subsystems.Agitator;
+import com.team2383.ninjaLib.StateCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -27,7 +28,23 @@ import static com.team2383.robot.HAL.hopper;
  */
 
 /*
- * TODO: add Hopper Operator Controls
+ * OI Controls:
+ * 
+ *  Driver->
+ * 		Arcade drive, left stick turn, right stick throttle
+ * 		Shooting ->
+ * 			Vision: LT aim, RT shoot
+ * 		DriveStraight -> left or right shoulder
+ * 		Shift -> push down on sticks, left low, right high
+ *	
+ *	Operator stick 1 ->
+ *		Turret: Twist stick
+ *		Distance Presets: buttons 7,9,11 (left row of side buttons) close to far
+ *		Hopper controls: button 8 toggle on/off, button 10 unjam
+ *		Feeder controls: button 3 in, 4 out (feeder controls automatically control flap)
+ *		Flywheel controls: Thumb spool, trigger shoot
+ *
+ *
  */
 @SuppressWarnings("unused")
 public class OI {
@@ -37,7 +54,7 @@ public class OI {
 	// You create one by telling it which joystick it's on and which button
 	// number it is.
 
-	/* Sticks */
+	/* Sticks functions */
 
 	private static DoubleUnaryOperator inputExpo = (x) -> {
 		return Constants.inputExpo * Math.pow(x, 3) + (1 - Constants.inputExpo) * x;
@@ -46,36 +63,47 @@ public class OI {
 	private static DoubleUnaryOperator deadband = (x) -> {
 		return Math.abs(x) > Constants.inputDeadband ? x : 0;
 	};
+	
+	//Driver
+	public static Gamepad driver = new Gamepad(0);
 
-	public static Gamepad driver = new Gamepad(0); //  Matt
-
-	public static Button shiftDown = driver.getLeftShoulder();
-	public static Button shiftUp = driver.getRightShoulder();
+	public static Button shiftDown = driver.getLeftStickClick();
+	public static Button shiftUp = driver.getRightStickClick();
+	
+	public static Button driveStraight = WPILambdas.createButton(() -> {
+		return driver.getRawButton(Gamepad.BUTTON_SHOULDER_LEFT) || driver.getRawButton(Gamepad.BUTTON_SHOULDER_RIGHT);
+	});
+	
+	public static Button visionAim = driver.getLeftTriggerClick();
+	public static Button visionShoot = driver.getRightTriggerClick();
+	
 	public static Button toggleAutoShift = driver.getButtonA();
 
-	public static DoubleSupplier leftStick = () -> deadband.applyAsDouble(driver.getLeftY());
-	public static DoubleSupplier rightStick = () -> deadband.applyAsDouble(driver.getRightX());
-
-	public static Joystick operator = new Joystick(2); // Anurag
-
-	public static Button feedIn = new JoystickButton(operator, 8);
-	public static Button feedOutFast = new JoystickButton(operator, 5);
-	public static Button feedOutSlow = new JoystickButton(operator, 6);
+	public static DoubleSupplier throttle = () -> deadband.applyAsDouble(driver.getLeftY());
+	public static DoubleSupplier turn = () -> deadband.applyAsDouble(driver.getRightX());
 	
-	public static Button hopIn = new JoystickButton(operator, 9);
-	public static Button hopOutFast = new JoystickButton(operator,10);
-	public static Button hopOutSlow = new JoystickButton(operator,11);
+	
+	//Operator
+	public static Joystick operator = new Joystick(2);
+	
+	public static DoubleSupplier turretStick = () -> deadband.applyAsDouble(operator.getTwist());
+	
+	/*
+	 * Preset buttons will replace this comment
+	 */
+
+	public static Button feedIn = new JoystickButton(operator, 3);
+	public static Button feedOut = new JoystickButton(operator, 4);
+	
+	public static Button agitatorOn = new JoystickButton(operator, 8);
+	public static Button agitatorUnjam = new JoystickButton(operator, 10);
 	
 	public OI() {
-		//shiftDown.whileHeld(new ShiftTo(Gear.LOW));
-		//shiftUp.whileHeld(new ShiftTo(Gear.HIGH));
-
-		feedIn.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.FEEDING, Feeder.State.STOPPED));
-		feedOutFast.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.OUTFEEDING, Feeder.State.STOPPED));
-		feedOutSlow.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.OUTFEEDINGSLOW, Feeder.State.STOPPED));
+		feedIn.whileHeld(new StateCommand.Set<Feeder.State>(feeder, Feeder.State.FEEDING, Feeder.State.STOPPED));
+		feedOut.whileHeld(new StateCommand.Set<Feeder.State>(feeder, Feeder.State.OUTFEEDING, Feeder.State.STOPPED));
 		
-		hopIn.whileHeld(new SetState<Hopper.State>(hopper, Hopper.State.FEEDING, Hopper.State.STOPPED));
-		hopOutFast.whileHeld(new SetState<Hopper.State>(hopper, Hopper.State.OUTFEEDING, Hopper.State.STOPPED));
-		hopOutSlow.whileHeld(new SetState<Hopper.State>(hopper, Hopper.State.OUTFEEDINGSLOW, Hopper.State.STOPPED));
+		//TODO: add sensor to agitator so operator can just toggle on/off when necessary and agitator handles rest.
+		agitatorOn.whileHeld(new StateCommand.Set<Agitator.State>(hopper, Agitator.State.FEEDING, Agitator.State.STOPPED));
+		agitatorUnjam.whileHeld(new StateCommand.Set<Agitator.State>(hopper, Agitator.State.UNJAM, Agitator.State.STOPPED));
 	}
 }

@@ -12,6 +12,7 @@ import com.team2383.robot.Constants;
 public class Agitator extends StatefulSubsystem<Agitator.State> {
 
 	private CANTalon agitator;
+	private CANTalon stream;
 	private State state;
 	
 	public Agitator(){
@@ -27,6 +28,7 @@ public class Agitator extends StatefulSubsystem<Agitator.State> {
 	public void feed() {
 		if(true /*if agitator sensor says we should agitate*/) {
 			agitator.set(1);
+			stream.set(1);
 		}
 	}
 
@@ -36,6 +38,7 @@ public class Agitator extends StatefulSubsystem<Agitator.State> {
 
 	public void stop() {
 		agitator.set(0);
+		stream.set(0);
 	}
 
 	@Override

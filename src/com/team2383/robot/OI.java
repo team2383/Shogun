@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 
 import static com.team2383.robot.HAL.feeder;
-import static com.team2383.robot.HAL.hopper;
+import static com.team2383.robot.HAL.agitator;
 
 
 /**
@@ -31,13 +31,14 @@ import static com.team2383.robot.HAL.hopper;
  * OI Controls:
  * 
  *  Driver->
- * 		Arcade drive, left stick turn, right stick throttle
+ * 		Arcade drive, left stick throttle, right stick turn
  * 		Shooting ->
  * 			Vision: LT aim, RT shoot
  * 		DriveStraight -> left or right shoulder
  * 		Shift -> push down on sticks, left low, right high
  *	
  *	Operator stick 1 ->
+ *		Manual Override: button 5 toggle on/off (switch from driver-based to operator-based shooting controls)
  *		Turret: Twist stick
  *		Distance Presets: buttons 7,9,11 (left row of side buttons) close to far
  *		Hopper controls: button 8 toggle on/off, button 10 unjam
@@ -86,6 +87,8 @@ public class OI {
 	//Operator
 	public static Joystick operator = new Joystick(2);
 	
+	public static Button changeManual = new JoystickButton(operator, 5);
+	
 	public static DoubleSupplier turretStick = () -> deadband.applyAsDouble(operator.getTwist());
 	
 	/*
@@ -103,7 +106,7 @@ public class OI {
 		feedOut.whileHeld(new StateCommand.Set<Feeder.State>(feeder, Feeder.State.OUTFEEDING, Feeder.State.STOPPED));
 		
 		//TODO: add sensor to agitator so operator can just toggle on/off when necessary and agitator handles rest.
-		agitatorOn.whileHeld(new StateCommand.Set<Agitator.State>(hopper, Agitator.State.FEEDING, Agitator.State.STOPPED));
-		agitatorUnjam.whileHeld(new StateCommand.Set<Agitator.State>(hopper, Agitator.State.UNJAM, Agitator.State.STOPPED));
+		agitatorOn.whileHeld(new StateCommand.Set<Agitator.State>(agitator, Agitator.State.FEEDING, Agitator.State.STOPPED));
+		agitatorUnjam.whileHeld(new StateCommand.Set<Agitator.State>(agitator, Agitator.State.UNJAM, Agitator.State.STOPPED));
 	}
 }

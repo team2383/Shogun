@@ -13,7 +13,7 @@ public class HAL {
 	// subsystems
 	public static Drivetrain drivetrain = new Drivetrain();
 	public static Feeder feeder = new Feeder();
-	public static Agitator hopper = new Agitator();
+	public static Agitator agitator = new Agitator();
 	public static Turret turret = new Turret();
 	
 	public static AHRS navX = new AHRS(SPI.Port.kMXP);

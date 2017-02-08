@@ -13,7 +13,7 @@ public class Constants {
 	 * Hopper Constants
 	 */
 	
-	public static final int kHopperTalonID = 11;
+	public static final int kStreamTalonID = 11;
 	public static final int kAgitatorTalonID = 12;
 	
 	/*
@@ -22,8 +22,14 @@ public class Constants {
 	public static final int kLittleFlywheelTalonID = 9;
 	public static final int kBigFlywheelTalonID = 10;
 	public static final int kTurretTalonID = 10;
+	
+	/*
+	 * Pneumatics Constants
+	 */
 	public static final int kShifterForward = 0;
 	public static final int kShifterReverse = 1;
+	public static final int kGearManipulatorForward = 2;
+	public static final int kGearManipulatorBackward = 3;
 	
 
 	public static double kShooterRPMTolerance = 50;

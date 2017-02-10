@@ -7,11 +7,13 @@ import com.team2383.ninjaLib.DPadButton;
 import com.team2383.ninjaLib.DPadButton.Direction;
 import com.team2383.ninjaLib.Gamepad;
 import com.team2383.ninjaLib.LambdaButton;
+import com.team2383.ninjaLib.SetState;
 import com.team2383.ninjaLib.Values;
 import com.team2383.ninjaLib.WPILambdas;
 import com.team2383.robot.subsystems.Feeder;
+import com.team2383.robot.commands.DumbSpool;
 import com.team2383.robot.subsystems.Agitator;
-import com.team2383.ninjaLib.StateCommand;
+import com.team2383.ninjaLib.SetState;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -91,6 +93,8 @@ public class OI {
 	
 	public static DoubleSupplier turretStick = () -> deadband.applyAsDouble(operator.getTwist());
 	
+	public static Button manualSpool = new JoystickButton(operator, 2);
+	
 	/*
 	 * Preset buttons will replace this comment
 	 */
@@ -102,11 +106,13 @@ public class OI {
 	public static Button agitatorUnjam = new JoystickButton(operator, 10);
 	
 	public OI() {
-		feedIn.whileHeld(new StateCommand.Set<Feeder.State>(feeder, Feeder.State.FEEDING, Feeder.State.STOPPED));
-		feedOut.whileHeld(new StateCommand.Set<Feeder.State>(feeder, Feeder.State.OUTFEEDING, Feeder.State.STOPPED));
+		feedIn.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.FEEDING, Feeder.State.STOPPED));
+		feedOut.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.OUTFEEDING, Feeder.State.STOPPED));
 		
 		//TODO: add sensor to agitator so operator can just toggle on/off when necessary and agitator handles rest.
-		agitatorOn.whileHeld(new StateCommand.Set<Agitator.State>(agitator, Agitator.State.FEEDING, Agitator.State.STOPPED));
-		agitatorUnjam.whileHeld(new StateCommand.Set<Agitator.State>(agitator, Agitator.State.UNJAM, Agitator.State.STOPPED));
+		agitatorOn.whileHeld(new SetState<Agitator.State>(agitator, Agitator.State.FEEDING, Agitator.State.STOPPED));
+		agitatorUnjam.whileHeld(new SetState<Agitator.State>(agitator, Agitator.State.UNJAM, Agitator.State.STOPPED));
+		
+		manualSpool.whileHeld(new DumbSpool());
 	}
 }

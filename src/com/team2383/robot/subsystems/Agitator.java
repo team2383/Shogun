@@ -1,7 +1,7 @@
 package com.team2383.robot.subsystems;
 
 import com.ctre.CANTalon;
-import com.team2383.ninjaLib.StateCommand.StatefulSubsystem;
+import com.team2383.ninjaLib.SetState.StatefulSubsystem;
 import com.team2383.robot.Constants;
 
 /*
@@ -9,7 +9,7 @@ import com.team2383.robot.Constants;
  */
 
 
-public class Agitator extends StatefulSubsystem<Agitator.State> {
+public class Agitator extends com.team2383.ninjaLib.SetState.StatefulSubsystem<Agitator.State> {
 
 	private CANTalon agitator;
 	private CANTalon stream;
@@ -43,16 +43,6 @@ public class Agitator extends StatefulSubsystem<Agitator.State> {
 
 	@Override
 	public void setState(State state) {
-		this.state = state;
-	}
-
-	@Override
-	public State getState() {
-		return this.state;
-	}
-	
-	@Override
-	public void execute() {
 		switch (this.state) {
 			case FEEDING:
 				feed();
@@ -67,5 +57,11 @@ public class Agitator extends StatefulSubsystem<Agitator.State> {
 				stop();
 				break;
 		}
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
 	}
 }

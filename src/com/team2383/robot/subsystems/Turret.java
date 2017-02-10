@@ -62,11 +62,28 @@ public class Turret extends Subsystem {
 	}
 
 	public void stop() {
+		
 		bigFlywheel.enableBrakeMode(true);
 		bigFlywheel.disable();
 	
 		littleFlywheel.enableBrakeMode(true);
 		littleFlywheel.disable();
+	}
+	
+	public void dumbStop(){
+		littleFlywheel.changeControlMode(TalonControlMode.PercentVbus);
+		bigFlywheel.changeControlMode(TalonControlMode.PercentVbus);
+		littleFlywheel.set(0.0);
+		bigFlywheel.set(0.0);
+	}
+	
+	public void dumbSpool(){
+		littleFlywheel.changeControlMode(TalonControlMode.PercentVbus);
+		bigFlywheel.changeControlMode(TalonControlMode.PercentVbus);
+		bigFlywheel.enableBrakeMode(false);
+		littleFlywheel.enableBrakeMode(false);
+		littleFlywheel.set(-0.7);
+		bigFlywheel.set(-0.9);
 	}
 
 	public void setRPM(double rpm) {

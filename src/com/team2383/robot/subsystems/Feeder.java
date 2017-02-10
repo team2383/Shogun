@@ -2,10 +2,10 @@ package com.team2383.robot.subsystems;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
-import com.team2383.ninjaLib.StateCommand.StatefulSubsystem;
+import com.team2383.ninjaLib.SetState.StatefulSubsystem;
 import com.team2383.robot.Constants;
 
-public class Feeder extends StatefulSubsystem<Feeder.State> {
+public class Feeder extends com.team2383.ninjaLib.SetState.StatefulSubsystem<Feeder.State> {
 	private CANTalon feederLeft;
 	private CANTalon feederRight;
 	private State state;
@@ -42,17 +42,7 @@ public class Feeder extends StatefulSubsystem<Feeder.State> {
 
 	@Override
 	public void setState(State state) {
-		this.state = state;
-	}
-	
-	@Override
-	public State getState() {
-		return this.state;
-	}
-	
-	@Override
-	public void execute() {
-		switch (this.state) {
+		switch (state) {
 			case FEEDING:
 				feedIn();
 				break;
@@ -66,6 +56,11 @@ public class Feeder extends StatefulSubsystem<Feeder.State> {
 				stop();
 				break;
 		}
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
 	}
 
 }

@@ -13,15 +13,15 @@ public class Constants {
 	 * Hopper Constants
 	 */
 	
-	public static final int kStreamTalonID = 11;
-	public static final int kAgitatorTalonID = 12;
+	public static final int kStreamTalonID = 12;
+	public static final int kAgitatorTalonID = 13;
 	
 	/*
 	 * Turret Constants
 	 */
 	public static final int kLittleFlywheelTalonID = 9;
 	public static final int kBigFlywheelTalonID = 10;
-	public static final int kTurretTalonID = 10;
+	public static final int kTurretTalonID = 11;
 	
 	/*
 	 * Pneumatics Constants

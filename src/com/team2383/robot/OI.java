@@ -12,6 +12,7 @@ import com.team2383.ninjaLib.Values;
 import com.team2383.ninjaLib.WPILambdas;
 import com.team2383.robot.subsystems.Feeder;
 import com.team2383.robot.commands.DumbSpool;
+import com.team2383.robot.commands.FlapChange;
 import com.team2383.robot.subsystems.Agitator;
 import com.team2383.ninjaLib.SetState;
 
@@ -40,12 +41,12 @@ import static com.team2383.robot.HAL.agitator;
  * 		Shift -> push down on sticks, left low, right high
  *	
  *	Operator stick 1 ->
- *		Manual Override: button 5 toggle on/off (switch from driver-based to operator-based shooting controls)
  *		Turret: Twist stick
  *		Distance Presets: buttons 7,9,11 (left row of side buttons) close to far
  *		Hopper controls: button 8 toggle on/off, button 10 unjam
- *		Feeder controls: button 3 in, 4 out (feeder controls automatically control flap)
- *		Flywheel controls: Thumb spool, trigger shoot
+ *		Feeder controls: button 3 in, 4 out
+ *		Flap controls: depending on where we feed from button 12
+ *		Flywheel controls: Thumb spool (2), trigger shoot (1)
  *
  *
  */
@@ -89,11 +90,12 @@ public class OI {
 	//Operator
 	public static Joystick operator = new Joystick(2);
 	
-	public static Button changeManual = new JoystickButton(operator, 5);
-	
 	public static DoubleSupplier turretStick = () -> deadband.applyAsDouble(operator.getTwist());
 	
 	public static Button manualSpool = new JoystickButton(operator, 2);
+	
+	public static Button changeFlap = new JoystickButton(operator, 12);
+
 	
 	/*
 	 * Preset buttons will replace this comment
@@ -105,13 +107,19 @@ public class OI {
 	public static Button agitatorOn = new JoystickButton(operator, 8);
 	public static Button agitatorUnjam = new JoystickButton(operator, 10);
 	
+	// Vision Operator
+	public static Joystick visionStick = new Joystick(3);
+	
 	public OI() {
+		
 		feedIn.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.FEEDING, Feeder.State.STOPPED));
 		feedOut.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.OUTFEEDING, Feeder.State.STOPPED));
 		
 		//TODO: add sensor to agitator so operator can just toggle on/off when necessary and agitator handles rest.
 		agitatorOn.whileHeld(new SetState<Agitator.State>(agitator, Agitator.State.FEEDING, Agitator.State.STOPPED));
 		agitatorUnjam.whileHeld(new SetState<Agitator.State>(agitator, Agitator.State.UNJAM, Agitator.State.STOPPED));
+		
+		changeFlap.toggleWhenPressed(new FlapChange());
 		
 		manualSpool.whileHeld(new DumbSpool());
 	}

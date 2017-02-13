@@ -17,18 +17,18 @@ public class Agitator extends com.team2383.ninjaLib.SetState.StatefulSubsystem<A
 	
 	public Agitator(){
 		agitator = new CANTalon(Constants.kAgitatorTalonID);
-		
+		stream = new CANTalon(Constants.kStreamTalonID);
 		this.state = State.STOPPED;
 	}
 	
-	public enum State{
+	public enum State {
 		FEEDING, UNJAM, STOPPED
 	}
 	
 	public void feed() {
 		if(true /*if agitator sensor says we should agitate*/) {
 			agitator.set(1);
-			stream.set(1);
+			stream.set(-1);
 		}
 	}
 
@@ -43,7 +43,7 @@ public class Agitator extends com.team2383.ninjaLib.SetState.StatefulSubsystem<A
 
 	@Override
 	public void setState(State state) {
-		switch (this.state) {
+		switch (state) {
 			case FEEDING:
 				feed();
 				break;
@@ -62,6 +62,5 @@ public class Agitator extends com.team2383.ninjaLib.SetState.StatefulSubsystem<A
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		
 	}
 }

@@ -6,129 +6,163 @@ import com.team2383.robot.Constants;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
+
+import com.team2383.ninjaLib.WPILambdas;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Turret extends Subsystem {
-
-	private CANTalon littleFlywheel;
-	private CANTalon bigFlywheel;
-	private CANTalon turret;
+	private CANTalon turret = new CANTalon(Constants.kTurretTalonID);
+	private DoubleSupplier angleSupplier = () -> 0;
 	
-	private DoubleSupplier rpmSupplier = () -> 0;
-
+	/**
+	 * the turret aiming motor is a 100:1 versaplanetary driven by a BAG motor, using a 10 turn pot on the versaplanetary output to close the loop.
+	 * the turret has a 128tooth pulley, the versaplanetary output has a 24 tooth pulley
+	 * 
+	 * the turret is controlled using functional supplier functions for each parameter.
+	 * for constant updates to the turret angle, update must be called within a loop
+	 * the turret angle functions allows for manual, non loop control for autonomous/testing/tuning purposes,
+	 */
 	public Turret() {
-		littleFlywheel = new CANTalon(Constants.kLittleFlywheelTalonID);
-		bigFlywheel = new CANTalon(Constants.kBigFlywheelTalonID);
-		turret = new CANTalon(Constants.kTurretTalonID);
+		turret.enableBrakeMode(true);
+		turret.setFeedbackDevice(FeedbackDevice.AnalogPot);
+		turret.changeControlMode(TalonControlMode.Position);
+		turret.setPID(Constants.kTurretPositionP, Constants.kTurretPositionI, Constants.kTurretPositionD,
+				Constants.kTurretPositionF, Constants.kTurretPositionIZone, 0, 0);
 		
-		littleFlywheel.enableBrakeMode(false);
-		littleFlywheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		littleFlywheel.changeControlMode(TalonControlMode.Speed);
-		littleFlywheel.reverseOutput(true);
-		littleFlywheel.reverseSensor(false);
-		littleFlywheel.configPeakOutputVoltage(3.0, -12.0);
-		littleFlywheel.setPID(Constants.kLittleFlywheelP, Constants.kLittleFlywheelI, Constants.kLittleFlywheelD,
-				Constants.kLittleFlywheelF, Constants.kLittleFlywheelIZone, 0, 0);
-		littleFlywheel.enable();
-		
-		bigFlywheel.enableBrakeMode(false);
-		bigFlywheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		bigFlywheel.changeControlMode(TalonControlMode.Speed);
-		bigFlywheel.reverseOutput(true);
-		bigFlywheel.reverseSensor(false);
-		bigFlywheel.configPeakOutputVoltage(3.0, -12.0);
-		bigFlywheel.setPID(Constants.kBigFlywheelP, Constants.kBigFlywheelI, Constants.kBigFlywheelD,
-				Constants.kBigFlywheelF, Constants.kBigFlywheelIZone, 0, 0);
-		bigFlywheel.enable();
+		turret.setReverseSoftLimit(Constants.kTurretReverseLimit);
+		turret.setForwardSoftLimit(Constants.kTurretForwardLimit);
+		turret.configPotentiometerTurns(10);
+		turret.enableForwardSoftLimit(true);
+		turret.enableReverseSoftLimit(true);
+		turret.reverseOutput(false);
+		turret.reverseSensor(true);
 	}
 
 	/**
-	 * call periodically to spool the shooter to a certain RPM BANG-BANG
-	 * controller: Off if at or above setpoint, On otherwise.
+	 * continually updates turret to follow it's setpoint
 	 *
-	 * @param rpm
 	 */
-	public void spoolToSetpoint() {
-		double setRPM = rpmSupplier.getAsDouble();
-		bigFlywheel.changeControlMode(TalonControlMode.Speed);
-		bigFlywheel.enable();
-		bigFlywheel.setSetpoint(setRPM);
-		bigFlywheel.enableBrakeMode(false);
-		
-		littleFlywheel.changeControlMode(TalonControlMode.Speed);
-		littleFlywheel.enable();
-		littleFlywheel.setSetpoint(setRPM);
-		littleFlywheel.enableBrakeMode(false);
-	}
-
-	public void stop() {
-		
-		bigFlywheel.enableBrakeMode(true);
-		bigFlywheel.disable();
-	
-		littleFlywheel.enableBrakeMode(true);
-		littleFlywheel.disable();
-	}
-	
-	public void dumbStop(){
-		littleFlywheel.changeControlMode(TalonControlMode.PercentVbus);
-		bigFlywheel.changeControlMode(TalonControlMode.PercentVbus);
-		littleFlywheel.set(0.0);
-		bigFlywheel.set(0.0);
-	}
-	
-	public void dumbSpool(){
-		littleFlywheel.changeControlMode(TalonControlMode.PercentVbus);
-		bigFlywheel.changeControlMode(TalonControlMode.PercentVbus);
-		bigFlywheel.enableBrakeMode(false);
-		littleFlywheel.enableBrakeMode(false);
-		littleFlywheel.set(-0.7);
-		bigFlywheel.set(-0.9);
-	}
-
-	public void setRPM(double rpm) {
-		setRPM(() -> rpm);
-	}
-
-	public void setRPM(DoubleSupplier rpmSupplier) {
-		this.rpmSupplier = rpmSupplier;
+	public void update() {
+		turret.changeControlMode(TalonControlMode.Position);
+		turret.enable();
+		setAngle(angleSupplier.getAsDouble());
 	}
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
+		this.setDefaultCommand(WPILambdas.runForeverCommand(this::holdPosition));
 	}
 	
-	public boolean isBigWheelAtSetpoint() {
-
-		return Math.abs(getBigWheelRPM() - bigFlywheel.getSetpoint()) <= Constants.kShooterRPMTolerance;
+	//turret methods
+	
+	public boolean isAtSetpoint() {
+		return Math.abs(getPotRotations() - getPotRotationsSetpoint()) <= Constants.kTurretTolerance;
 	}
 	
-	public boolean isLittleWheelAtSetpoint() {
-		return Math.abs(getLittleWheelRPM() - littleFlywheel.getSetpoint()) <= Constants.kShooterRPMTolerance;
+	public void moveAtSpeed(double speed) {
+		turret.changeControlMode(TalonControlMode.PercentVbus);
+		turret.set(speed);
 	}
 	
-	public boolean isTurretAtSetpoint() {
-		return false; //Math.abs(getRPM() - bigFlywheel.getSetpoint()) <= Constants.shooterRPMTolerance;
-	}
-	
-	public double getBigWheelRPM() {
-		return bigFlywheel.getSpeed();
-	}
-	
-	public double getLittleWheelRPM() {
-		return littleFlywheel.getSpeed();
+	public void stop() {
+		turret.changeControlMode(TalonControlMode.PercentVbus);
+		turret.set(0);
 	}
 
-	public double getSuppliedSetpoint() {
-		return rpmSupplier.getAsDouble();
-	}
-
-	public double getBigWheelSetpoint() {
-		return bigFlywheel.getSetpoint();
+	public void holdPosition() {
+		this.setAngle(this.getAngle());
 	}
 	
-	public double getLittleWheelSetpoint() {
-		return littleFlywheel.getSetpoint();
+	/**
+	 * Sets the turret angle supplier for realtime turret control
+	 * @param 
+	 */
+	public void setAngleSupplier(DoubleSupplier angleSupplier) {
+		angleSupplier = angleSupplier;
+	}
+	
+	
+	/**
+	 * Sets the turret position setpoint to the passed in angle
+	 * @param angle desired turret setpoint
+	 */
+	public void setAngle(double angle) {
+		turret.changeControlMode(TalonControlMode.Position);
+		turret.setSetpoint(turretAngleToPotAngle(angle));
+	}
+	
+	/**
+	 * get turret current aim
+	 * @return the angle (in degrees) of the turret's current aim,
+	 * 0 degrees being the counterclockwise hard stop,
+	 * 270 degrees being the clockwise hard stop
+	 */
+	public double getAngle() {
+		return potAngleToTurretAngle(getPotAngle());
+	}
+	
+	/**
+	 * get turret desired aim
+	 * @return the angle (in degrees) of the turret's current aim,
+	 * 0 degrees being the counterclockwise hard stop,
+	 * 270 degrees being the clockwise hard stop
+	 */
+	public double getAngleSetpoint() {
+		return potAngleToTurretAngle(getPotAngleSetpoint());
+	}
+
+	/**
+	 * get turret pot angle in degrees
+	 * @return turret pot angle in degrees
+	 */
+	public double getPotAngle() {
+		return getPotRotations() * 360.0;
+	}
+	
+	
+	/**
+	 * get turret pot angle in degrees
+	 * @return turret pot angle in degrees
+	 */
+	public double getPotAngleSetpoint() {
+		return getPotRotationsSetpoint() * 360.0;
+	}
+	
+	
+	/**
+	 * get raw turret pot angle in degrees
+	 * @return raw pot angle in degrees
+	 */
+	public double getPotRotations() {
+		return turret.getPosition();
+	}
+	
+	/**
+	 * get desired raw turret pot angle in degrees
+	 * @return desired raw pot angle in degrees
+	 */
+	public double getPotRotationsSetpoint() {
+		return turret.getSetpoint();
+	}
+	
+	//turret unit conversion methods
+	
+	/**
+	 * 
+	 * @param turret angle in turret degrees
+	 * @return equivalent angle in potentiometer degrees
+	 */
+	public static double turretAngleToPotAngle(double turret) {
+		return turret * (1.0/Constants.kTurretPotAngleRatio);
+	}
+	
+	/**
+	 * 
+	 * @param pot the current degree value of the pop
+	 * @return the current degree angle of the turret
+	 */
+	public static double potAngleToTurretAngle(double pot) {
+		return pot * Constants.kTurretPotAngleRatio;
 	}
 }

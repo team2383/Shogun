@@ -12,6 +12,62 @@ public class WPILambdas {
 	public static Button createButton(BooleanSupplier lambda) {
 		return new LambdaButton(lambda);
 	}
+	
+	public static Command runOnceCommand(Runnable execute, boolean ends) {
+		return new Command() {
+			private boolean set;
+
+			@Override
+			protected void execute() {
+				if (!set) {
+					execute.run();
+				}
+			}
+
+			@Override
+			protected boolean isFinished() {
+				return ends && set;
+			}
+
+			@Override
+			protected void initialize() {
+			}
+
+			@Override
+			protected void end() {
+			}
+
+			@Override
+			protected void interrupted() {
+			}
+		};
+	}
+
+	public static Command runForeverCommand(Runnable execute) {
+		return new Command() {
+			@Override
+			protected void execute() {
+				execute.run();
+			}
+
+			@Override
+			protected boolean isFinished() {
+				return false;
+			}
+
+			@Override
+			protected void initialize() {
+			}
+
+			@Override
+			protected void end() {
+			}
+
+			@Override
+			protected void interrupted() {
+			}
+		};
+	}
 
 	public static Command createCommand(BooleanSupplier execute) {
 		return new Command() {

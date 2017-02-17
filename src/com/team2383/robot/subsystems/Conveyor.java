@@ -5,33 +5,33 @@ import com.team2383.ninjaLib.SetState.StatefulSubsystem;
 import com.team2383.robot.Constants;
 
 /*
- * This subsystem includes the agitator streaming balls into the conveyor
+ * This subsystem includes the conveyor streaming balls into the shooter
  */
 
 
-public class Agitator extends com.team2383.ninjaLib.SetState.StatefulSubsystem<Agitator.State> {
+public class Conveyor extends com.team2383.ninjaLib.SetState.StatefulSubsystem<Conveyor.State> {
 
-	private CANTalon agitator = new CANTalon(Constants.kAgitatorTalonID);
+	private CANTalon conveyor = new CANTalon(Constants.kConveyorTalonID);
 	private State state = State.STOPPED;
 	
-	public Agitator(){}
+	public Conveyor(){}
 	
 	public enum State {
 		FEEDING, UNJAM, STOPPED
 	}
 	
 	public void feed() {
-		if(true /*if agitator sensor says we should agitate*/) {
-			agitator.set(1);
+		if(true /*if conveyor sensor says we should agitate*/) {
+			conveyor.set(1);
 		}
 	}
 
 	public void unjam() {
-		agitator.set(-0.8);
+		conveyor.set(-0.8);
 	}
 
 	public void stop() {
-		agitator.set(0);
+		conveyor.set(0);
 	}
 
 	@Override

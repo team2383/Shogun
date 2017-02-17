@@ -2,7 +2,6 @@ package com.team2383.robot.subsystems;
 
 import com.team2383.robot.Constants;
 import com.team2383.robot.OI;
-//import com.team2383.robot.commands.TeleopDrive;
 import com.team2383.robot.commands.TeleopDrive;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;

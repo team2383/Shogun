@@ -1,6 +1,6 @@
 package com.team2383.robot.commands;
 
-import static com.team2383.robot.HAL.turret;
+import static com.team2383.robot.HAL.shooter;
 
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,7 +11,7 @@ public class DumbSpool extends Command {
 
 	public DumbSpool() {
 		super("Dumb Spool");
-		requires(turret);
+		requires(shooter);
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class DumbSpool extends Command {
 
 	@Override
 	protected void execute() {
-		turret.dumbSpool();
+		shooter.dumbSpool();
 	}	
 
 	@Override
@@ -30,7 +30,7 @@ public class DumbSpool extends Command {
 
 	@Override
 	protected void end() {
-		turret.dumbStop();
+		shooter.stop();
 	}
 
 	@Override

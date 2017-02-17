@@ -7,12 +7,16 @@ import com.team2383.ninjaLib.DPadButton;
 import com.team2383.ninjaLib.DPadButton.Direction;
 import com.team2383.ninjaLib.Gamepad;
 import com.team2383.ninjaLib.LambdaButton;
+import com.team2383.ninjaLib.OnChangeButton;
 import com.team2383.ninjaLib.SetState;
 import com.team2383.ninjaLib.Values;
 import com.team2383.ninjaLib.WPILambdas;
 import com.team2383.robot.subsystems.Feeder;
+import com.team2383.robot.subsystems.Flap;
+import com.team2383.robot.Constants.Preset;
 import com.team2383.robot.commands.DumbSpool;
-import com.team2383.robot.commands.FlapChange;
+import com.team2383.robot.commands.MoveTurret;
+import com.team2383.robot.commands.UsePreset;
 import com.team2383.robot.subsystems.Agitator;
 import com.team2383.ninjaLib.SetState;
 
@@ -23,6 +27,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import static com.team2383.robot.HAL.feeder;
 import static com.team2383.robot.HAL.agitator;
+import static com.team2383.robot.HAL.flap;
+
 
 
 /**
@@ -100,12 +106,20 @@ public class OI {
 	/*
 	 * Preset buttons will replace this comment
 	 */
+	public static Button shoot = new JoystickButton(operator, 1);
+	public static Button spool = new JoystickButton(operator, 2);
 
 	public static Button feedIn = new JoystickButton(operator, 3);
 	public static Button feedOut = new JoystickButton(operator, 4);
 	
 	public static Button agitatorOn = new JoystickButton(operator, 8);
 	public static Button agitatorUnjam = new JoystickButton(operator, 10);
+	
+	public static Button moveTurret = new OnChangeButton(OI.turretStick, 0.08);
+	
+	public static Button presetClose = new JoystickButton(operator, 7);
+	public static Button presetMid = new JoystickButton(operator, 9);
+	public static Button presetFar = new JoystickButton(operator, 11);
 	
 	// Vision Operator
 	public static Joystick visionStick = new Joystick(3);
@@ -119,8 +133,15 @@ public class OI {
 		agitatorOn.whileHeld(new SetState<Agitator.State>(agitator, Agitator.State.FEEDING, Agitator.State.STOPPED));
 		agitatorUnjam.whileHeld(new SetState<Agitator.State>(agitator, Agitator.State.UNJAM, Agitator.State.STOPPED));
 		
-		changeFlap.toggleWhenPressed(new FlapChange());
+		moveTurret.whileHeld(new MoveTurret(OI.turretStick));
+		
+		changeFlap.whileHeld(new SetState<Flap.State>(flap, Flap.State.EXTENDED, Flap.State.RETRACTED));
 		
 		manualSpool.whileHeld(new DumbSpool());
+		
+
+		presetClose.whenPressed(new UsePreset(Preset.close));
+		presetMid.whenPressed(new UsePreset(Preset.mid));
+		presetFar.whenPressed(new UsePreset(Preset.far));
 	}
 }

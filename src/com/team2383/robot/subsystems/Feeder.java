@@ -10,28 +10,13 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Feeder extends com.team2383.ninjaLib.SetState.StatefulSubsystem<Feeder.State> {
-	private final CANTalon feederLeft;
-	private final CANTalon feederRight;
-	private final DoubleSolenoid GearManipulator;
-	private State state;
+	private final CANTalon feederLeft = new CANTalon(Constants.kFeederLeftTalonID);
+	private final CANTalon feederRight = new CANTalon(Constants.kFeederRightTalonID);
+	private State state = State.STOPPED;
 	
 	public Feeder() {
-		feederLeft = new CANTalon(Constants.kFeederLeftTalonID);
-		feederRight = new CANTalon(Constants.kFeederRightTalonID);
 		feederRight.changeControlMode(TalonControlMode.Follower);
 		feederRight.set(feederLeft.getDeviceID());
-		GearManipulator = new DoubleSolenoid(Constants.kGearManipulatorForward, Constants.kGearManipulatorBackward);
-		
-		this.state = State.STOPPED;
-	}
-	
-	public enum FlapState {
-		CLOSED, OPEN;
-
-		@Override
-		public String toString() {
-			return super.toString().toLowerCase();
-		}
 	}
 
 	public enum State {
@@ -39,7 +24,6 @@ public class Feeder extends com.team2383.ninjaLib.SetState.StatefulSubsystem<Fee
 	}
 
 	public void feedIn() {
-		System.out.println("Feeding!");
 		feederLeft.set(1);
 	}
 
@@ -72,37 +56,6 @@ public class Feeder extends com.team2383.ninjaLib.SetState.StatefulSubsystem<Fee
 				break;
 		}
 	}
-	
-	public void flapChange(){
-		if(getFlap() == FlapState.OPEN){
-			flapTo(FlapState.CLOSED);
-		}
-		else{flapTo(FlapState.OPEN);}
-	}
-	
-	public void flapTo(FlapState flapState){
-		switch (flapState) {
-		default:
-		case OPEN:
-			GearManipulator.set(Value.kForward);
-			break;
-		case CLOSED:
-			GearManipulator.set(Value.kReverse);
-			break;
-		}
-	}
-	
-	public FlapState getFlap() {
-		switch (GearManipulator.get()) {
-		case kForward:
-			return FlapState.OPEN;
-		default:
-		case kReverse:
-			return FlapState.CLOSED;
-		}
-	}
-	
-	
 
 	@Override
 	protected void initDefaultCommand() {

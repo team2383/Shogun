@@ -3,6 +3,7 @@ package com.team2383.robot;
 import java.util.LinkedList;
 
 public class Constants {
+	
 	/*
 	 * Feeder Constants
 	 */
@@ -10,11 +11,22 @@ public class Constants {
 	public static final int kFeederRightTalonID = 8;
 	
 	/*
-	 * Hopper Constants
+	 * Conveyor constants
 	 */
+	public static final int kConveyorTalonID = 12;
 	
-	public static final int kStreamTalonID = 12;
+	/*
+	 * Agitator Constants
+	 */
 	public static final int kAgitatorTalonID = 13;
+
+	/*
+	 * Pneumatics Constants
+	 */
+	public static final int kShifterForward = 0;
+	public static final int kShifterReverse = 1;
+	public static final int kFlapForward = 2;
+	public static final int kFlapBackward = 3;
 	
 	/*
 	 * Turret Constants
@@ -23,27 +35,70 @@ public class Constants {
 	public static final int kBigFlywheelTalonID = 10;
 	public static final int kTurretTalonID = 11;
 	
-	/*
-	 * Pneumatics Constants
-	 */
-	public static final int kShifterForward = 0;
-	public static final int kShifterReverse = 1;
-	public static final int kGearManipulatorForward = 2;
-	public static final int kGearManipulatorBackward = 3;
+	public static final int kTurretTeeth = 128;
+	public static final int kTurretPinionTeeth = 24;
+	public static final double kTurretPotAngleRatio = ((double) kTurretPinionTeeth/kTurretTeeth);
 	
 
-	public static double kShooterRPMTolerance = 50;
+	public static final double kTurretPositionP = 2.0;
+	public static final double kTurretPositionI = 0.005;
+	public static final double kTurretPositionD = 0.75;
+	public static final double kTurretPositionF = 0;
+	public static final int kTurretPositionIZone = 40;
+	public static final double kTurretTolerance = 0.5/360.0; //turret pot rotations
 	
-	public static double kBigFlywheelMaxRPM = 4500;
-	public static double kBigFlywheelMinRPM = 2500;
+			/**
+			 * Last calibration date: NEVER
+			 * 
+			 * units: raw turret pot rotations
+			 **/
+	public static final int kTurretReverseLimit = 0;
+	public static final int kTurretForwardLimit = 0;
+	
+	/*
+	 * Shooter Constants
+	 */
+	
+	public static class ShooterPreset {
+		public final double bigWheelRPM;
+		public final double littleWheelRPM;
+
+		/**
+		 * @param bigWheelRPM
+		 * @param littleWheelRPM
+		 */
+		public ShooterPreset(double bigWheelRPM, double littleWheelRPM) {
+			this.bigWheelRPM = bigWheelRPM;
+			this.littleWheelRPM = littleWheelRPM;
+		}
+	}
+
+	public static enum Preset {
+		close(new ShooterPreset(2000, 3000)), mid(new ShooterPreset(3000, 4000)), far(new ShooterPreset(3400, 4200));
+
+		private final ShooterPreset preset;
+
+		Preset(ShooterPreset preset) {
+			this.preset = preset;
+		}
+
+		public ShooterPreset get() {
+			return preset;
+		}
+	}
+	
+	public static double kFlywheelRPMTolerance = 30;
+	
+	public static double kBigFlywheelMaxRPM = 5000;
+	public static double kBigFlywheelMinRPM = 1200;
 	public static double kBigFlywheelP = 0.68;
 	public static double kBigFlywheelI = 0.0;
 	public static double kBigFlywheelD = 0.25;
 	public static double kBigFlywheelF = 0.033;
 	public static int kBigFlywheelIZone = 40;
 	
-	public static double kLittleFlywheelMaxRPM = 4500;
-	public static double kLittleFlywheelMinRPM = 2500;
+	public static double kLittleFlywheelMaxRPM = 5000;
+	public static double kLittleFlywheelMinRPM = 1200;
 	public static double kLittleFlywheelP = 0.68;
 	public static double kLittleFlywheelI = 0.0;
 	public static double kLittleFlywheelD = 0.25;

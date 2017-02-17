@@ -3,6 +3,8 @@ package com.team2383.robot;
 import java.util.function.DoubleSupplier;
 import java.util.function.DoubleUnaryOperator;
 
+import static com.team2383.robot.HAL.shooter;
+
 import com.team2383.ninjaLib.DPadButton;
 import com.team2383.ninjaLib.DPadButton.Direction;
 import com.team2383.ninjaLib.Gamepad;
@@ -15,7 +17,10 @@ import com.team2383.robot.subsystems.Feeder;
 import com.team2383.robot.subsystems.Flap;
 import com.team2383.robot.Constants.Preset;
 import com.team2383.robot.commands.DumbSpool;
+import com.team2383.robot.commands.Tuner;
 import com.team2383.robot.commands.MoveTurret;
+import com.team2383.robot.commands.Shoot;
+import com.team2383.robot.commands.Spool;
 import com.team2383.robot.commands.UsePreset;
 import com.team2383.robot.subsystems.Agitator;
 import com.team2383.ninjaLib.SetState;
@@ -23,7 +28,7 @@ import com.team2383.ninjaLib.SetState;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
+import edu.wpi.first.wpilibj.command.Command;
 
 import static com.team2383.robot.HAL.feeder;
 import static com.team2383.robot.HAL.agitator;
@@ -53,6 +58,9 @@ import static com.team2383.robot.HAL.flap;
  *		Feeder controls: button 3 in, 4 out
  *		Flap controls: depending on where we feed from button 12
  *		Flywheel controls: Thumb spool (2), trigger shoot (1)
+ *
+ *	Operator stick 2 (tuning stick)
+ *		button 
  *
  *
  */
@@ -98,9 +106,24 @@ public class OI {
 	
 	public static DoubleSupplier turretStick = () -> deadband.applyAsDouble(operator.getTwist());
 	
-	public static Button manualSpool = new JoystickButton(operator, 2);
-	
 	public static Button changeFlap = new JoystickButton(operator, 12);
+	
+	//Tuner
+	public static Joystick tuner = new Joystick(3);
+	
+	public static Button bigFlywheelIncrement = new JoystickButton(tuner, 7);
+	public static Button bigFlywheelDecrement = new JoystickButton(tuner, 9);
+	
+	public static Button littleFlywheelIncrement = new JoystickButton(tuner, 8);
+	public static Button littleFlywheelDecrement = new JoystickButton(tuner, 10);
+	
+	public static Button enableTuning = WPILambdas.createButton(() -> {
+		boolean result = false;
+		for(int i = 7; i <= 10; i++) {
+			if (tuner.getRawButton(i)) result = true;
+		}
+		return result;
+	});
 
 	
 	/*
@@ -137,9 +160,23 @@ public class OI {
 		
 		changeFlap.whileHeld(new SetState<Flap.State>(flap, Flap.State.EXTENDED, Flap.State.RETRACTED));
 		
-		manualSpool.whileHeld(new DumbSpool());
+		spool.whileHeld(new Spool());
+		shoot.whileHeld(new Shoot());
 		
-
+		Tuner bigFlywheelTuner = new Tuner(10, 0.2, 1.0);
+		Tuner littleFlywheelTuner = new Tuner(10, 0.2, 1.0);
+		Command enableFlywheelTuning = WPILambdas.runOnceCommand(() -> {
+			shooter.setBigFlywheelRPMSupplier(bigFlywheelTuner::getValue);
+			shooter.setLittleFlywheelRPMSupplier(littleFlywheelTuner::getValue);
+		}, false);
+		
+		bigFlywheelIncrement.whileHeld(bigFlywheelTuner.getIncrementCommand());
+		bigFlywheelDecrement.whileHeld(bigFlywheelTuner.getDecrementCommand());
+		littleFlywheelIncrement.whileHeld(bigFlywheelTuner.getIncrementCommand());
+		littleFlywheelDecrement.whileHeld(bigFlywheelTuner.getDecrementCommand());
+		enableTuning.whenPressed(enableFlywheelTuning);
+		
+		
 		presetClose.whenPressed(new UsePreset(Preset.close));
 		presetMid.whenPressed(new UsePreset(Preset.mid));
 		presetFar.whenPressed(new UsePreset(Preset.far));

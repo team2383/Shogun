@@ -6,6 +6,7 @@ import com.team2383.robot.subsystems.Feeder;
 import com.team2383.robot.subsystems.Flap;
 import com.team2383.robot.subsystems.Conveyor;
 import com.team2383.robot.subsystems.Agitator;
+import com.team2383.robot.subsystems.Climber;
 import com.team2383.robot.subsystems.Turret;
 import com.team2383.robot.subsystems.Shooter;
 
@@ -21,6 +22,7 @@ public class HAL {
 	public static Agitator agitator = new Agitator();
 	public static Turret turret = new Turret();
 	public static Shooter shooter = new Shooter();
+	public static Climber climber = new Climber();
 	
 	public static AHRS navX = new AHRS(SPI.Port.kMXP);
 }

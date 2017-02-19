@@ -125,7 +125,7 @@ public class CheesyDriveHelper {
 			leftSpeed += overPower * (-1.0 - rightSpeed);
 			rightSpeed = -1.0;
 		}
-		drivetrain.tank(rightSpeed, leftSpeed);
+		drivetrain.tank(leftSpeed, rightSpeed);
 	}
 
 	public double handleDeadband(double val, double deadband) {

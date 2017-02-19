@@ -7,10 +7,11 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends Subsystem {
-	private CANTalon littleFlywheel = new CANTalon(Constants.kLittleFlywheelTalonID);
-	private CANTalon bigFlywheel = new CANTalon(Constants.kBigFlywheelTalonID);
+	public CANTalon littleFlywheel = new CANTalon(Constants.kLittleFlywheelTalonID);
+	public CANTalon bigFlywheel = new CANTalon(Constants.kBigFlywheelTalonID);
 
 	private DoubleSupplier littleFlywheelRPMSupplier = () -> 0;
 	private DoubleSupplier bigFlywheelRPMSupplier = () -> 0;
@@ -29,9 +30,9 @@ public class Shooter extends Subsystem {
 		bigFlywheel.enableBrakeMode(false);
 		bigFlywheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		bigFlywheel.changeControlMode(TalonControlMode.Speed);
-		bigFlywheel.reverseOutput(true);
+		bigFlywheel.reverseOutput(false);
 		bigFlywheel.reverseSensor(false);
-		bigFlywheel.configPeakOutputVoltage(3.0, -12.0);
+		bigFlywheel.configPeakOutputVoltage(12.0, -3.0);
 		bigFlywheel.setPID(Constants.kBigFlywheelP, Constants.kBigFlywheelI, Constants.kBigFlywheelD,
 				Constants.kBigFlywheelF, Constants.kBigFlywheelIZone, 0, 0);
 		bigFlywheel.enable();
@@ -104,7 +105,7 @@ public class Shooter extends Subsystem {
 	}
 	
 	public double getBigWheelRPMSetpoint() {
-		return bigFlywheel.getSetpoint();
+		return bigFlywheelRPMSupplier.getAsDouble();
 	}
 	
 	public double getLittleWheelRPM() {
@@ -112,6 +113,6 @@ public class Shooter extends Subsystem {
 	}
 
 	public double getLittleWheelRPMSetpoint() {
-		return littleFlywheel.getSetpoint();
+		return littleFlywheelRPMSupplier.getAsDouble();
 	}
 }

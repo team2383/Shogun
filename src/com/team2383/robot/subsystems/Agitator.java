@@ -14,7 +14,8 @@ public class Agitator extends com.team2383.ninjaLib.SetState.StatefulSubsystem<A
 	private CANTalon agitator = new CANTalon(Constants.kAgitatorTalonID);
 	private State state = State.STOPPED;
 	
-	public Agitator(){}
+	public Agitator(){
+	}
 	
 	public enum State {
 		FEEDING, UNJAM, STOPPED
@@ -22,12 +23,12 @@ public class Agitator extends com.team2383.ninjaLib.SetState.StatefulSubsystem<A
 	
 	public void feed() {
 		if(true /*if agitator sensor says we should agitate*/) {
-			agitator.set(1);
+			agitator.set(-1);
 		}
 	}
 
 	public void unjam() {
-		agitator.set(-0.8);
+		agitator.set(0.8);
 	}
 
 	public void stop() {

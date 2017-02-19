@@ -3,7 +3,6 @@ package com.team2383.robot;
 import java.util.function.DoubleSupplier;
 import java.util.function.DoubleUnaryOperator;
 
-import static com.team2383.robot.HAL.shooter;
 
 import com.team2383.ninjaLib.DPadButton;
 import com.team2383.ninjaLib.DPadButton.Direction;
@@ -19,10 +18,12 @@ import com.team2383.robot.Constants.Preset;
 import com.team2383.robot.commands.DumbSpool;
 import com.team2383.robot.commands.Tuner;
 import com.team2383.robot.commands.MoveTurret;
+import com.team2383.robot.commands.PrecisionDrive;
 import com.team2383.robot.commands.Shoot;
 import com.team2383.robot.commands.Spool;
 import com.team2383.robot.commands.UsePreset;
 import com.team2383.robot.subsystems.Agitator;
+import com.team2383.robot.subsystems.Climber;
 import com.team2383.ninjaLib.SetState;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -30,9 +31,11 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
+import static com.team2383.robot.HAL.shooter;
 import static com.team2383.robot.HAL.feeder;
 import static com.team2383.robot.HAL.agitator;
 import static com.team2383.robot.HAL.flap;
+import static com.team2383.robot.HAL.climber;
 
 
 
@@ -48,7 +51,8 @@ import static com.team2383.robot.HAL.flap;
  * 		Arcade drive, left stick throttle, right stick turn
  * 		Shooting ->
  * 			Vision: LT aim, RT shoot
- * 		DriveStraight -> left or right shoulder
+ * 		DriveStraight -> right shoulder
+ * 		Precision Drive -> left shoulder
  * 		Shift -> push down on sticks, left low, right high
  *	
  *	Operator stick 1 ->
@@ -58,6 +62,7 @@ import static com.team2383.robot.HAL.flap;
  *		Feeder controls: button 3 in, 4 out
  *		Flap controls: depending on where we feed from button 12
  *		Flywheel controls: Thumb spool (2), trigger shoot (1)
+ *		Climber controls: button 6
  *
  *	Operator stick 2 (tuning stick)
  *		button 
@@ -99,6 +104,8 @@ public class OI {
 
 	public static DoubleSupplier throttle = () -> deadband.applyAsDouble(driver.getLeftY());
 	public static DoubleSupplier turn = () -> deadband.applyAsDouble(driver.getRightX());
+	
+	public static Button precisionDrive = driver.getLeftShoulder();
 	
 	
 	//Operator
@@ -144,10 +151,12 @@ public class OI {
 	public static Button presetMid = new JoystickButton(operator, 9);
 	public static Button presetFar = new JoystickButton(operator, 11);
 	
-	// Vision Operator
-	public static Joystick visionStick = new Joystick(3);
+	public static Button climb = new JoystickButton(operator, 6);
+	
 	
 	public OI() {
+		
+		precisionDrive.whileHeld(new PrecisionDrive(throttle, turn, toggleAutoShift::get, shiftDown::get, shiftUp::get));
 		
 		feedIn.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.FEEDING, Feeder.State.STOPPED));
 		feedOut.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.OUTFEEDING, Feeder.State.STOPPED));
@@ -156,6 +165,8 @@ public class OI {
 		agitatorOn.whileHeld(new SetState<Agitator.State>(agitator, Agitator.State.FEEDING, Agitator.State.STOPPED));
 		agitatorUnjam.whileHeld(new SetState<Agitator.State>(agitator, Agitator.State.UNJAM, Agitator.State.STOPPED));
 		
+		climb.whileHeld(new SetState<Climber.State>(climber, Climber.State.CLIMB, Climber.State.STOPPED));
+		
 		moveTurret.whileHeld(new MoveTurret(OI.turretStick));
 		
 		changeFlap.whileHeld(new SetState<Flap.State>(flap, Flap.State.EXTENDED, Flap.State.RETRACTED));
@@ -163,8 +174,8 @@ public class OI {
 		spool.whileHeld(new Spool());
 		shoot.whileHeld(new Shoot());
 		
-		Tuner bigFlywheelTuner = new Tuner(10, 0.2, 1.0);
-		Tuner littleFlywheelTuner = new Tuner(10, 0.2, 1.0);
+		Tuner bigFlywheelTuner = new Tuner(shooter.getBigWheelRPMSetpoint(), 10, 0.02, 0.5);
+		Tuner littleFlywheelTuner = new Tuner(shooter.getLittleWheelRPMSetpoint(), 10, 0.02, 0.5);
 		Command enableFlywheelTuning = WPILambdas.runOnceCommand(() -> {
 			shooter.setBigFlywheelRPMSupplier(bigFlywheelTuner::getValue);
 			shooter.setLittleFlywheelRPMSupplier(littleFlywheelTuner::getValue);
@@ -172,13 +183,13 @@ public class OI {
 		
 		bigFlywheelIncrement.whileHeld(bigFlywheelTuner.getIncrementCommand());
 		bigFlywheelDecrement.whileHeld(bigFlywheelTuner.getDecrementCommand());
-		littleFlywheelIncrement.whileHeld(bigFlywheelTuner.getIncrementCommand());
-		littleFlywheelDecrement.whileHeld(bigFlywheelTuner.getDecrementCommand());
+		littleFlywheelIncrement.whileHeld(littleFlywheelTuner.getIncrementCommand());
+		littleFlywheelDecrement.whileHeld(littleFlywheelTuner.getDecrementCommand());
 		enableTuning.whenPressed(enableFlywheelTuning);
 		
 		
-		presetClose.whenPressed(new UsePreset(Preset.close));
-		presetMid.whenPressed(new UsePreset(Preset.mid));
-		presetFar.whenPressed(new UsePreset(Preset.far));
+		presetClose.whileHeld(new UsePreset(Preset.close));
+		presetMid.whileHeld(new UsePreset(Preset.mid));
+		presetFar.whileHeld(new UsePreset(Preset.far));
 	}
 }

@@ -19,7 +19,8 @@ public class Tuner {
 	private double value;
 	
 	private double lastTick = 0;
-	private double holdTime;
+	private double totalHoldTime = 0;
+	private double tickTime = 0;
 	
 	private class TunerCommand extends Command {
 		private final double tickIncrement;
@@ -31,15 +32,16 @@ public class Tuner {
 		@Override
 		protected void initialize() {
 			lastTick = 0;
-			holdTime = 0;
+			totalHoldTime = 0;
 			value += this.tickIncrement;
 		}
 
 		@Override
 		protected void execute() {
-			holdTime += this.timeSinceInitialized() - lastTick;
-			if(holdTime >= minHoldTime) {
-				holdTime = 0;
+			tickTime += this.timeSinceInitialized() - lastTick;
+			totalHoldTime += tickTime;
+			if(totalHoldTime >= minHoldTime && tickTime >= tickLength) {
+				tickTime = 0;
 				value += tickIncrement;
 			}
 			
@@ -69,10 +71,21 @@ public class Tuner {
 	 * @param tickLength how long a tick is in seconds (holding to adjust)
 	 * @param holdTime how long to hold before constant adjustment
 	 */
-	public Tuner(double tickIncrement, double tickLength, double minHoldTime) {
+	public Tuner(double value, double tickIncrement, double tickLength, double minHoldTime) {
 		this.tickIncrement = Math.abs(tickIncrement);
 		this.tickLength = tickLength;
 		this.minHoldTime = minHoldTime;
+		this.value = value;
+	}
+	
+	/**
+	 * Creates a new tuner
+	 * @param tickIncrement how many RPM to increase by in one tick (a negative value will be made postive)
+	 * @param tickLength how long a tick is in seconds (holding to adjust)
+	 * @param holdTime how long to hold before constant adjustment
+	 */
+	public Tuner(double tickIncrement, double tickLength, double minHoldTime) {
+		this(0, tickIncrement, tickLength, minHoldTime);
 	}
 	
 	public Command getIncrementCommand() {

@@ -2,6 +2,7 @@ package com.team2383.robot.subsystems;
 
 import com.team2383.robot.Constants;
 import com.team2383.robot.OI;
+import com.team2383.robot.commands.PrecisionDrive;
 import com.team2383.robot.commands.TeleopDrive;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -78,13 +79,13 @@ public class Drivetrain extends Subsystem {
 	public void tank(double leftValue, double rightValue) {
 		leftMaster.changeControlMode(TalonControlMode.PercentVbus);
 		rightMaster.changeControlMode(TalonControlMode.PercentVbus);
-		robotDrive.tankDrive(leftValue, rightValue);
+		robotDrive.tankDrive(rightValue, leftValue);
 	}
 
 	public void arcade(double driveSpeed, double turnSpeed) {
 		leftMaster.changeControlMode(TalonControlMode.PercentVbus);
 		rightMaster.changeControlMode(TalonControlMode.PercentVbus);
-		robotDrive.arcadeDrive(driveSpeed, turnSpeed);
+		robotDrive.arcadeDrive(driveSpeed, -turnSpeed);
 	}
 
 	public void shiftTo(Gear gear) {
@@ -184,4 +185,5 @@ public class Drivetrain extends Subsystem {
 	public void disableBrake() {
 		setBrake(false);
 	}
+	
 }

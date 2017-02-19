@@ -19,6 +19,11 @@ public class Constants {
 	 * Agitator Constants
 	 */
 	public static final int kAgitatorTalonID = 13;
+	
+	/*
+	 * Climber Constants
+	 */
+	public static final int kClimberTalonID = 14;
 
 	/*
 	 * Pneumatics Constants
@@ -65,7 +70,7 @@ public class Constants {
 
 		/**
 		 * @param bigWheelRPM
-		 * @param littleWheelRPM
+		 * @param littleWheelRPM	`1q
 		 */
 		public ShooterPreset(double bigWheelRPM, double littleWheelRPM) {
 			this.bigWheelRPM = bigWheelRPM;
@@ -74,7 +79,7 @@ public class Constants {
 	}
 
 	public static enum Preset {
-		close(new ShooterPreset(2000, 3000)), mid(new ShooterPreset(3000, 4000)), far(new ShooterPreset(3400, 4200));
+		close(new ShooterPreset(2900, 1400)), mid(new ShooterPreset(1500, 800)), far(new ShooterPreset(1000, 1300));
 
 		private final ShooterPreset preset;
 
@@ -91,18 +96,18 @@ public class Constants {
 	
 	public static double kBigFlywheelMaxRPM = 5000;
 	public static double kBigFlywheelMinRPM = 1200;
-	public static double kBigFlywheelP = 0.68;
-	public static double kBigFlywheelI = 0.0;
-	public static double kBigFlywheelD = 0.25;
-	public static double kBigFlywheelF = 0.033;
+	public static double kBigFlywheelP = 0.06;
+	public static double kBigFlywheelI = 0.006;
+	public static double kBigFlywheelD = 0.2;
+	public static double kBigFlywheelF = 0.035;
 	public static int kBigFlywheelIZone = 40;
 	
 	public static double kLittleFlywheelMaxRPM = 5000;
 	public static double kLittleFlywheelMinRPM = 1200;
-	public static double kLittleFlywheelP = 0.68;
-	public static double kLittleFlywheelI = 0.0;
-	public static double kLittleFlywheelD = 0.25;
-	public static double kLittleFlywheelF = 0.033;
+	public static double kLittleFlywheelP = 0.014;
+	public static double kLittleFlywheelI = 0.008;
+	public static double kLittleFlywheelD = 0.28;
+	public static double kLittleFlywheelF = 0.0435;
 	public static int kLittleFlywheelIZone = 40;
 
 	/*

@@ -3,6 +3,7 @@ package com.team2383.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
 import com.team2383.robot.Constants;
+import com.team2383.robot.commands.HoldTurret;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
@@ -51,7 +52,7 @@ public class Turret extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		this.setDefaultCommand(WPILambdas.runForeverCommand(this::holdPosition));
+		this.setDefaultCommand(new HoldTurret());
 	}
 	
 	//turret methods

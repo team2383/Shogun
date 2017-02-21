@@ -78,8 +78,11 @@ public class Constants {
 		}
 	}
 
+	//3010 for mid
+	//2950
+	
 	public static enum Preset {
-		close(new ShooterPreset(2900, 1400)), mid(new ShooterPreset(1500, 800)), far(new ShooterPreset(1000, 1300));
+		close(new ShooterPreset(2900, 1400)), mid(new ShooterPreset(3750, 800)), far(new ShooterPreset(1000, 1300));
 
 		private final ShooterPreset preset;
 

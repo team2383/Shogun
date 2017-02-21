@@ -145,7 +145,7 @@ public class OI {
 	public static Button agitatorOn = new JoystickButton(operator, 8);
 	public static Button agitatorUnjam = new JoystickButton(operator, 10);
 	
-	public static Button moveTurret = new OnChangeButton(OI.turretStick, 0.08);
+	public static Button moveTurret = new OnChangeButton(OI.turretStick, 0.2);
 	
 	public static Button presetClose = new JoystickButton(operator, 7);
 	public static Button presetMid = new JoystickButton(operator, 9);
@@ -158,6 +158,7 @@ public class OI {
 		
 		precisionDrive.whileHeld(new PrecisionDrive(throttle, turn, toggleAutoShift::get, shiftDown::get, shiftUp::get));
 		
+		
 		feedIn.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.FEEDING, Feeder.State.STOPPED));
 		feedOut.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.OUTFEEDING, Feeder.State.STOPPED));
 		
@@ -169,8 +170,8 @@ public class OI {
 		
 		moveTurret.whileHeld(new MoveTurret(OI.turretStick));
 		
-		changeFlap.whileHeld(new SetState<Flap.State>(flap, Flap.State.EXTENDED, Flap.State.RETRACTED));
 		
+		changeFlap.toggleWhenActive(new SetState<Flap.State>(flap, Flap.State.EXTENDED, Flap.State.RETRACTED));
 		spool.whileHeld(new Spool());
 		shoot.whileHeld(new Shoot());
 		

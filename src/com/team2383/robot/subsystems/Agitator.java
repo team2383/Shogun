@@ -23,7 +23,7 @@ public class Agitator extends com.team2383.ninjaLib.SetState.StatefulSubsystem<A
 	
 	public void feed() {
 		if(true /*if agitator sensor says we should agitate*/) {
-			agitator.set(-1);
+			agitator.set(-0.8);
 		}
 	}
 

@@ -1,14 +1,20 @@
-/*package com.team2383.robot.commands;
+package com.team2383.robot.commands;
 
 import java.util.function.DoubleSupplier;
+
+import com.team2383.ninjaLib.NullPIDOutput;
+import com.team2383.robot.Constants;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 
+import static com.team2383.robot.HAL.drivetrain;
+import static com.team2383.robot.HAL.navX;
+
 /**
  *
  */
-/*public class TeleopDriveStraight extends Command {
+public class TeleopDriveStraight extends Command {
 	private final DoubleSupplier throttle;
 	private final PIDController headingController;
 
@@ -16,12 +22,12 @@ import edu.wpi.first.wpilibj.command.Command;
 		super("Teleop Drive");
 		requires(drivetrain);
 		this.throttle = throttle;
-		headingController = new PIDController(Constants.driveTurnP, Constants.driveTurnI, Constants.driveTurnD, 0.0,
+		headingController = new PIDController(Constants.kDriveTurnP, Constants.kDriveTurnI, Constants.kDriveTurnD, 0.0,
 				navX, new NullPIDOutput());
 		headingController.setInputRange(-180.0, 180.0);
 		headingController.setOutputRange(-1.0, 1.0);
 		headingController.setContinuous();
-		headingController.setAbsoluteTolerance(Constants.driveTurnTolerance);
+		headingController.setAbsoluteTolerance(Constants.kDriveTurnTolerance);
 		headingController.setSetpoint(0);
 	}
 
@@ -34,9 +40,9 @@ import edu.wpi.first.wpilibj.command.Command;
 	@Override
 	protected void execute() {
 		if (this.timeSinceInitialized() > 0.1) {
-			drivetrain.arcade(leftStick.getAsDouble(), headingController.get());
+			drivetrain.arcade(throttle.getAsDouble(), headingController.get());
 		} else {
-			drivetrain.arcade(leftStick.getAsDouble(), 0);
+			drivetrain.arcade(throttle.getAsDouble(), 0);
 			System.out.println("Waiting for reset " + this.timeSinceInitialized());
 		}
 	}
@@ -57,4 +63,4 @@ import edu.wpi.first.wpilibj.command.Command;
 		drivetrain.tank(0, 0);
 		headingController.disable();
 	}
-}*/
+}

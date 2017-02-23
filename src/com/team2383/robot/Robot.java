@@ -3,6 +3,8 @@ package com.team2383.robot;
 
 import com.team2383.robot.commands.GeneralPeriodic;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -11,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
+	private UsbCamera camera0;
 
 	Command autoCommand;
 	Command generalPeriodicCommand = new GeneralPeriodic();
@@ -59,6 +62,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		CameraServer.getInstance().startAutomaticCapture();
 		if (!generalPeriodicCommand.isRunning()) {
 			generalPeriodicCommand.start();
 		}

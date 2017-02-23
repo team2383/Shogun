@@ -66,15 +66,13 @@ public class Constants {
 	
 	public static class ShooterPreset {
 		public final double bigWheelRPM;
-		public final double littleWheelRPM;
 
 		/**
 		 * @param bigWheelRPM
 		 * @param littleWheelRPM	`1q
 		 */
-		public ShooterPreset(double bigWheelRPM, double littleWheelRPM) {
+		public ShooterPreset(double bigWheelRPM) {
 			this.bigWheelRPM = bigWheelRPM;
-			this.littleWheelRPM = littleWheelRPM;
 		}
 	}
 
@@ -82,7 +80,7 @@ public class Constants {
 	//2950
 	
 	public static enum Preset {
-		close(new ShooterPreset(2900, 1400)), mid(new ShooterPreset(3750, 800)), far(new ShooterPreset(1000, 1300));
+		close(new ShooterPreset(2900)), mid(new ShooterPreset(3750)), far(new ShooterPreset(1000));
 
 		private final ShooterPreset preset;
 
@@ -99,9 +97,9 @@ public class Constants {
 	
 	public static double kBigFlywheelMaxRPM = 5000;
 	public static double kBigFlywheelMinRPM = 1200;
-	public static double kBigFlywheelP = 0.06;
-	public static double kBigFlywheelI = 0.006;
-	public static double kBigFlywheelD = 0.2;
+	public static double kBigFlywheelP = 0.084; //0.06
+	public static double kBigFlywheelI = 0.012; //0.006
+	public static double kBigFlywheelD = 0.25; //0.2
 	public static double kBigFlywheelF = 0.035;
 	public static int kBigFlywheelIZone = 40;
 	

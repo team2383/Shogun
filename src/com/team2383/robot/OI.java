@@ -176,16 +176,12 @@ public class OI {
 		shoot.whileHeld(new Shoot());
 		
 		Tuner bigFlywheelTuner = new Tuner(shooter.getBigWheelRPMSetpoint(), 10, 0.02, 0.5);
-		Tuner littleFlywheelTuner = new Tuner(shooter.getLittleWheelRPMSetpoint(), 10, 0.02, 0.5);
 		Command enableFlywheelTuning = WPILambdas.runOnceCommand(() -> {
 			shooter.setBigFlywheelRPMSupplier(bigFlywheelTuner::getValue);
-			shooter.setLittleFlywheelRPMSupplier(littleFlywheelTuner::getValue);
 		}, false);
 		
 		bigFlywheelIncrement.whileHeld(bigFlywheelTuner.getIncrementCommand());
 		bigFlywheelDecrement.whileHeld(bigFlywheelTuner.getDecrementCommand());
-		littleFlywheelIncrement.whileHeld(littleFlywheelTuner.getIncrementCommand());
-		littleFlywheelDecrement.whileHeld(littleFlywheelTuner.getDecrementCommand());
 		enableTuning.whenPressed(enableFlywheelTuning);
 		
 		

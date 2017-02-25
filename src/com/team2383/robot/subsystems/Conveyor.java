@@ -22,7 +22,7 @@ public class Conveyor extends com.team2383.ninjaLib.SetState.StatefulSubsystem<C
 	
 	public void feed() {
 		if(true /*if conveyor sensor says we should agitate*/) {
-			conveyor.set(0.3);
+			conveyor.set(1.0);
 		}
 	}
 

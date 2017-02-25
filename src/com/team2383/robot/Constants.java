@@ -69,7 +69,7 @@ public class Constants {
 
 		/**
 		 * @param bigWheelRPM
-		 * @param littleWheelRPM	`1q
+		 * @param littleWheelRPM
 		 */
 		public ShooterPreset(double bigWheelRPM) {
 			this.bigWheelRPM = bigWheelRPM;
@@ -129,12 +129,12 @@ public class Constants {
 	public static double kDriveUpshiftFPSThreshold = 4.0;
 	public static double kDriveDownshiftFPSThreshold = 3.0;
 
-	public static double kDriveTurnTolerance = 0.54;
-	public static double kDriveTurnP = 0.01;
-	public static double kDriveTurnI = 0.00; //0.01
-	public static double kDriveTurnD = 0.04;  //0.4
-	public static double kDriveTurnIZone = 6;
-	public static double kDriveTurnVelocity = 0.95;
+	public static double kDriveTurnTolerance = 2.0;
+	public static double kDriveTurnP = 0.15;
+	public static double kDriveTurnI = 0.0; //0.01
+	public static double kDriveTurnD = 0.002;  //0.4
+	public static double kDriveTurnIZone = 7;
+	public static double kDriveTurnVelocity = 0.65;
 
 	public static double kDriveHeadingMaintainTolerance = 0.25;
 	public static double kDriveHeadingMaintainP = 0.13;
@@ -143,7 +143,7 @@ public class Constants {
 	public static double kDriveHeadingMaintainF = 0;
 
 	public static double kDrivePositionTolerance = 1.2;
-	public static double kDrivePositionP = 0.070;
+	public static double kDrivePositionP = 1.0;
 	public static double kDrivePositionI = 0.001;
 	public static double kDrivePositionD = 0.048;
 	public static double kDrivePositionIZone = kDrivePositionTolerance * 4.0;

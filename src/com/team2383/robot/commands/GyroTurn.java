@@ -41,11 +41,10 @@ public class GyroTurn extends PIDCommand {
 		this.getPIDController().setInputRange(-180.0, 180.0);
 		this.getPIDController().setOutputRange(-velocity, velocity);
 		this.getPIDController().setContinuous();
-		this.getPIDController().setSetpoint(angle);
+		this.getPIDController().setSetpoint(180 - angle);
 		this.tolerance = tolerance;
 		this.wait = wait;
 		SmartDashboard.putData("Turn Controller", this.getPIDController());
-    	//LiveWindow.addActuator("Drive", "Heading", this.getPIDController());
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class GyroTurn extends PIDCommand {
 		 */
 		if (Math.abs(this.getPIDController().getError()) <= Constants.kDriveTurnIZone) {
 			this.getPIDController().setPID(Constants.kDriveTurnP, Constants.kDriveTurnI, Constants.kDriveTurnD);
-		} else {
+		} else if(Math.abs(this.getPIDController().getError()) <= 1.0) {
 			this.getPIDController().setPID(Constants.kDriveTurnP, 0.0, Constants.kDriveTurnD);
 		}
 	}

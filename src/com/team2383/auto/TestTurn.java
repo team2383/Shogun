@@ -8,6 +8,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class TestTurn extends CommandGroup {
 	public TestTurn() {
-		addSequential(new GyroTurn(180, false));
+		addSequential(new GyroTurn(0, false));
 	}
 }

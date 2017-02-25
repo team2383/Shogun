@@ -24,7 +24,7 @@ public class Feeder extends com.team2383.ninjaLib.SetState.StatefulSubsystem<Fee
 	}
 
 	public void feedIn() {
-		feederLeft.set(1);
+		feederLeft.set(1.0);
 	}
 
 	public void feedOut() {

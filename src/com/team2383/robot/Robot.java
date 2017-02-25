@@ -1,6 +1,9 @@
-
+	
 package com.team2383.robot;
 
+import com.team2383.auto.TestDrive;
+import com.team2383.auto.TestTurn;
+import com.team2383.ninjaLib.NullCommand;
 import com.team2383.robot.commands.GeneralPeriodic;
 
 import edu.wpi.cscore.UsbCamera;
@@ -25,10 +28,15 @@ public class Robot extends IterativeRobot {
 		HAL hal = new HAL();
 		Constants constants = new Constants();
 		OI oi = new OI();
-
+		
+		HAL.navX.reset();
+		
 		autoChooser = new SendableChooser<Command>();
-
+		autoChooser.addObject("null auto", new NullAuto());
+		autoChooser.addObject("Test Drive", new TestDrive());
+		autoChooser.addObject("Test Turn", new TestTurn());
 		SmartDashboard.putData("Auto Chooser", autoChooser);
+		
 	}
 
 	@Override
@@ -45,6 +53,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
+		HAL.navX.reset();
 		autoCommand = (Command) autoChooser.getSelected();
 		if (autoCommand != null) {
 			autoCommand.start();
@@ -62,6 +71,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+
 		CameraServer.getInstance().startAutomaticCapture();
 		if (!generalPeriodicCommand.isRunning()) {
 			generalPeriodicCommand.start();

@@ -21,6 +21,7 @@ import com.team2383.robot.commands.MoveTurret;
 import com.team2383.robot.commands.PrecisionDrive;
 import com.team2383.robot.commands.Shoot;
 import com.team2383.robot.commands.Spool;
+import com.team2383.robot.commands.TeleopDriveStraight;
 import com.team2383.robot.commands.UsePreset;
 import com.team2383.robot.subsystems.Agitator;
 import com.team2383.robot.subsystems.Climber;
@@ -93,9 +94,7 @@ public class OI {
 	public static Button shiftDown = driver.getLeftStickClick();
 	public static Button shiftUp = driver.getRightStickClick();
 	
-	public static Button driveStraight = WPILambdas.createButton(() -> {
-		return driver.getRawButton(Gamepad.BUTTON_SHOULDER_LEFT) || driver.getRawButton(Gamepad.BUTTON_SHOULDER_RIGHT);
-	});
+	public static Button driveStraight = driver.getRightShoulder();
 	
 	public static Button visionAim = driver.getLeftTriggerClick();
 	public static Button visionShoot = driver.getRightTriggerClick();
@@ -157,6 +156,7 @@ public class OI {
 	public OI() {
 		
 		precisionDrive.whileHeld(new PrecisionDrive(throttle, turn, toggleAutoShift::get, shiftDown::get, shiftUp::get));
+		driveStraight.whileHeld(new TeleopDriveStraight(throttle));
 		
 		
 		feedIn.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.FEEDING, Feeder.State.STOPPED));

@@ -80,7 +80,7 @@ public class Constants {
 	//2950
 	
 	public static enum Preset {
-		close(new ShooterPreset(2900)), mid(new ShooterPreset(3750)), far(new ShooterPreset(1000));
+		close(new ShooterPreset(3480)), mid(new ShooterPreset(3650)), far(new ShooterPreset(4200));
 
 		private final ShooterPreset preset;
 
@@ -97,9 +97,9 @@ public class Constants {
 	
 	public static double kBigFlywheelMaxRPM = 5000;
 	public static double kBigFlywheelMinRPM = 1200;
-	public static double kBigFlywheelP = 0.084; //0.06
-	public static double kBigFlywheelI = 0.012; //0.006
-	public static double kBigFlywheelD = 0.25; //0.2
+	public static double kBigFlywheelP = 0.12; // 0.084 0.06
+	public static double kBigFlywheelI = 0.0; // 0.012 0.006
+	public static double kBigFlywheelD = 0.001; // 0.25 0.2
 	public static double kBigFlywheelF = 0.035;
 	public static int kBigFlywheelIZone = 40;
 	
@@ -130,9 +130,9 @@ public class Constants {
 	public static double kDriveDownshiftFPSThreshold = 3.0;
 
 	public static double kDriveTurnTolerance = 0.54;
-	public static double kDriveTurnP = 0.049;
-	public static double kDriveTurnI = 0.010;
-	public static double kDriveTurnD = 0.110;
+	public static double kDriveTurnP = 0.01;
+	public static double kDriveTurnI = 0.00; //0.01
+	public static double kDriveTurnD = 0.04;  //0.4
 	public static double kDriveTurnIZone = 6;
 	public static double kDriveTurnVelocity = 0.95;
 

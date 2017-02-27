@@ -31,20 +31,20 @@ public class DriveDistance extends Command {
 	private boolean finish = true;
 	private final double distance;
 
-	public DriveDistance(double velocity, double distance, Gear gear, boolean brake) {
+	public DriveDistance(double distance, double velocity, Gear gear, boolean brake) {
 		this(velocity, distance, Constants.kDrivePositionTolerance, gear, brake);
 	}
 
-	public DriveDistance(double velocity, double distance, Gear gear, boolean brake, boolean finish) {
+	public DriveDistance(double distance, double velocity, Gear gear, boolean brake, boolean finish) {
 		this(velocity, distance, Constants.kDrivePositionTolerance, gear, brake);
 		this.finish = false;
 	}
 
-	public DriveDistance(double velocity, double distance, double tolerance, Gear gear, boolean brake) {
+	public DriveDistance(double distance, double velocity, double tolerance, Gear gear, boolean brake) {
 		this(velocity, distance, Constants.kDrivePositionTolerance, Constants.kPidSetpointWait, gear, brake);
 	}
 
-	public DriveDistance(double velocity, double distance, double tolerance, double wait, Gear gear, boolean brake) {
+	public DriveDistance(double distance, double velocity, double tolerance, double wait, Gear gear, boolean brake) {
 		super("Drive Distance");
 		this.gear = gear;
 		this.brake = brake;
@@ -66,7 +66,7 @@ public class DriveDistance extends Command {
 		turnController.setInputRange(-180.0, 180.0);
 		turnController.setOutputRange(-1.0, 1.0); // changed from .5 if auto
 													// is fucked
-		turnController.setContinuous();
+		//turnController.setContinuous();
 		turnController.setSetpoint(0);
 
 		this.tolerance = tolerance;

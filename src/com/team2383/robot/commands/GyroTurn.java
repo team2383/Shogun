@@ -41,7 +41,7 @@ public class GyroTurn extends PIDCommand {
 		this.getPIDController().setInputRange(-180.0, 180.0);
 		this.getPIDController().setOutputRange(-velocity, velocity);
 		this.getPIDController().setContinuous();
-		this.getPIDController().setSetpoint(180 - angle);
+		this.getPIDController().setSetpoint(angle);
 		this.tolerance = tolerance;
 		this.wait = wait;
 		SmartDashboard.putData("Turn Controller", this.getPIDController());
@@ -98,7 +98,7 @@ public class GyroTurn extends PIDCommand {
 	@Override
 	protected void usePIDOutput(double output) {
 		if (this.timeSinceInitialized() > 0.1) {
-			drivetrain.tank(-output, output);
+			drivetrain.tank(output, -output); // vish's fix for gyro
 		} else {
 			System.out.println("Waiting for reset");
 		}

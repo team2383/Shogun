@@ -5,9 +5,12 @@ import com.team2383.robot.commands.GyroTurn;
 import com.team2383.robot.subsystems.Drivetrain.Gear;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TestTurn extends CommandGroup {
+	public double expectedAngle;
 	public TestTurn() {
-		addSequential(new GyroTurn(90, false));
+		SmartDashboard.putNumber("Expected Gyro Turn Number", expectedAngle);
+		addSequential(new GyroTurn(expectedAngle, false));
 	}
 }

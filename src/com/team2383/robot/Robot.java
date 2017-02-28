@@ -1,6 +1,7 @@
 	
 package com.team2383.robot;
 
+import com.team2383.auto.ShootOnWall;
 import com.team2383.auto.TestDrive;
 import com.team2383.auto.TestTurn;
 import com.team2383.ninjaLib.NullCommand;
@@ -29,11 +30,12 @@ public class Robot extends IterativeRobot {
 		Constants constants = new Constants();
 		OI oi = new OI();
 		
-		
+		HAL.navX.reset();
 		autoChooser = new SendableChooser<Command>();
 		autoChooser.addObject("null auto", new NullAuto());
 		autoChooser.addObject("Test Drive", new TestDrive());
 		autoChooser.addObject("Test Turn", new TestTurn());
+		autoChooser.addObject("Shoot On Wall", new ShootOnWall());
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		
 	}

@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Activates the conveyor belt below the turret to feed balls into the shooter
  *
- * @author Matthew Alonso
  *
  */
 public class Shoot extends Command {

@@ -22,12 +22,12 @@ public class TeleopDriveStraight extends Command {
 		super("Teleop Drive");
 		requires(drivetrain);
 		this.throttle = throttle;
-		headingController = new PIDController(Constants.kDriveTurnP, Constants.kDriveTurnI, Constants.kDriveTurnD, 0.0,
+		headingController = new PIDController(Constants.kDriveHeadingMaintainP, Constants.kDriveHeadingMaintainI, Constants.kDriveHeadingMaintainD, 0.0,
 				navX, new NullPIDOutput());
 		headingController.setInputRange(-180.0, 180.0);
 		headingController.setOutputRange(-1.0, 1.0);
 		headingController.setContinuous();
-		headingController.setAbsoluteTolerance(Constants.kDriveTurnTolerance);
+		headingController.setAbsoluteTolerance(Constants.kDriveHeadingMaintainTolerance);
 		headingController.setSetpoint(0);
 	}
 
@@ -40,7 +40,7 @@ public class TeleopDriveStraight extends Command {
 	@Override
 	protected void execute() {
 		if (this.timeSinceInitialized() > 0.1) {
-			drivetrain.arcade(throttle.getAsDouble(), headingController.get());
+			drivetrain.arcade(throttle.getAsDouble(), -headingController.get());
 		} else {
 			drivetrain.arcade(throttle.getAsDouble(), 0);
 			System.out.println("Waiting for reset " + this.timeSinceInitialized());

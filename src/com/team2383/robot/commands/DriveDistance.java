@@ -91,7 +91,7 @@ public class DriveDistance extends Command {
 	@Override
 	protected void execute() {
 		if (this.timeSinceInitialized() > 0.1) {
-			drivetrain.arcade(-distanceController.get(), turnController.get());
+			drivetrain.arcade(-distanceController.get(), -turnController.get());
 		} else {
 			System.out.println("Waiting for reset " + this.timeSinceInitialized());
 		}

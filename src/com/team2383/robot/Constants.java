@@ -142,7 +142,7 @@ public class Constants {
 	public static double kDriveHeadingMaintainD = 0.01;
 	public static double kDriveHeadingMaintainF = 0;
 
-	public static double kDrivePositionTolerance = 1.2;
+	public static double kDrivePositionTolerance = 0.75;
 	public static double kDrivePositionP = 0.3;
 	public static double kDrivePositionI = 0.001;
 	public static double kDrivePositionD = 0.250;

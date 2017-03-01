@@ -28,6 +28,7 @@ public class GeneralPeriodic extends Command {
     	SmartDashboard.putNumber("Gyro Yaw", navX.getYaw());
     
     	SmartDashboard.putNumber("Gyro Pitch", navX.getPitch());
+    	SmartDashboard.putNumber("Gyro Roll", navX.getRoll());
     	SmartDashboard.putNumber("BigWheelSpeed", shooter.getBigWheelRPM());
     	SmartDashboard.putNumber("BigWheelSetpoint setpoint", shooter.getBigWheelRPMSetpoint());
     }

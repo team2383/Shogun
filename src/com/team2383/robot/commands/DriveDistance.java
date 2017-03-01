@@ -8,6 +8,7 @@ import com.team2383.robot.Constants;
 import com.team2383.robot.subsystems.Drivetrain.Gear;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,7 +38,7 @@ public class DriveDistance extends Command {
 
 	public DriveDistance(double distance, double velocity, Gear gear, boolean brake, boolean finish) {
 		this(velocity, distance, Constants.kDrivePositionTolerance, gear, brake);
-		this.finish = false;
+		//this.finish = false;
 	}
 
 	public DriveDistance(double distance, double velocity, double tolerance, Gear gear, boolean brake) {
@@ -51,7 +52,7 @@ public class DriveDistance extends Command {
 		this.distance = distance;
 
 		distanceController = new PIDController(Constants.kDrivePositionP, Constants.kDrivePositionI,
-				Constants.kDrivePositionD, 0.0, navX, new NullPIDOutput());
+				Constants.kDrivePositionD, 0.0, drivetrain, new NullPIDOutput());
 		distanceController.setSetpoint(distance);
 		distanceController.setOutputRange(-velocity, velocity);
 
@@ -99,6 +100,8 @@ public class DriveDistance extends Command {
 
 	@Override
 	protected boolean isFinished() {
+		Timer.delay(2.0);
+		/*
 		if (Math.abs(distanceController.getError()) <= tolerance) {
 			timeAtSetpoint += this.timeSinceInitialized() - lastCheck;
 		} else {
@@ -109,6 +112,8 @@ public class DriveDistance extends Command {
 		SmartDashboard.putNumber("timeAtSetpoint", timeAtSetpoint);
 		lastCheck = this.timeSinceInitialized();
 		return finish && timeAtSetpoint >= wait;
+		*/
+		return true;
 	}
 
 	@Override

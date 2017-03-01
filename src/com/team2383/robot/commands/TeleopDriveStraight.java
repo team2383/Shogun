@@ -30,6 +30,7 @@ public class TeleopDriveStraight extends Command {
 		headingController.setAbsoluteTolerance(Constants.kDriveHeadingMaintainTolerance);
 		headingController.setSetpoint(0);
 	}
+	
 
 	@Override
 	protected void initialize() {

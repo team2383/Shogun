@@ -12,45 +12,40 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Spool extends Command {
 	private final DoubleSupplier bigWheelRPMSupplier;
-	private final DoubleSupplier littleWheelRPMSupplier;
 
 	/**
 	 * 
 	 * @param bigWheelRPM
-	 * @param littleWheelRPM
 	 * @param timeout
 	 */
 	public Spool(double bigWheelRPM, double littleWheelRPM, double timeout) {
-		this(() -> bigWheelRPM, () -> littleWheelRPM, timeout);
+		this(() -> bigWheelRPM, timeout);
 	}
 
 	/**
 	 * @param bigWheelRPM
 	 * @param littleWheelRPM
 	 */
-	public Spool(double bigWheelRPM, double littleWheelRPM) {
-		this(() -> bigWheelRPM, () -> littleWheelRPM);
+	public Spool(double bigWheelRPM) {
+		this(() -> bigWheelRPM);
 	}
 
-	public Spool(DoubleSupplier bigWheelRPMSupplier, DoubleSupplier littleWheelRPMSupplier, double timeout) {
+	public Spool(DoubleSupplier bigWheelRPMSupplier, double timeout) {
 		super("Spool To RPM", timeout);
 		requires(shooter);
 		this.bigWheelRPMSupplier = bigWheelRPMSupplier;
-		this.littleWheelRPMSupplier = littleWheelRPMSupplier;
 	}
 
-	public Spool(DoubleSupplier bigWheelRPMSupplier, DoubleSupplier littleWheelRPMSupplier) {
+	public Spool(DoubleSupplier bigWheelRPMSupplier) {
 		super("Spool To RPM");
 		requires(shooter);
 		this.bigWheelRPMSupplier = bigWheelRPMSupplier;
-		this.littleWheelRPMSupplier = littleWheelRPMSupplier;
 	}
 
 	public Spool() {
 		super("Spool To RPM");
 		requires(shooter);
 		this.bigWheelRPMSupplier = null;
-		this.littleWheelRPMSupplier = null;
 	}
 
 	@Override
@@ -58,9 +53,6 @@ public class Spool extends Command {
 		SmartDashboard.putBoolean("spooling?", false);
 		if (bigWheelRPMSupplier != null) {
 			shooter.setBigFlywheelRPMSupplier(this.bigWheelRPMSupplier);
-		}
-		if (littleWheelRPMSupplier != null) {
-			shooter.setBigFlywheelRPMSupplier(this.littleWheelRPMSupplier);
 		}
 	}
 

@@ -11,11 +11,13 @@ import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends Subsystem implements PIDSource{
 	private final RobotDrive robotDrive;
 	private final CANTalon leftMaster;
 	private final CANTalon leftSlaveOne;
@@ -49,7 +51,7 @@ public class Drivetrain extends Subsystem {
 		rightSlaveOne = new CANTalon(Constants.kRightSlaveOneTalonID);
 		rightSlaveTwo = new CANTalon(Constants.kRightSlaveTwoTalonID);
 
-		shifter = new DoubleSolenoid(Constants.kShifterForward, Constants.kShifterReverse);
+		shifter = new DoubleSolenoid(Constants.kShifterReverse, Constants.kShifterForward);
 		
 		/*
 		 * Configure drive talons 
@@ -185,5 +187,31 @@ public class Drivetrain extends Subsystem {
 	public void disableBrake() {
 		setBrake(false);
 	}
+
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return PIDSourceType.kDisplacement;
+	}
+
+	@Override
+	public double pidGet() {
+		return getInches();
+	}
+	
+	public void holdPosition() {
+		leftMaster.setProfile(1);
+		leftMaster.changeControlMode(TalonControlMode.Position);
+		leftMaster.setSetpoint(leftMaster.getPosition());
+
+		rightMaster.setProfile(1);
+		rightMaster.changeControlMode(TalonControlMode.Position);
+		rightMaster.setSetpoint(rightMaster.getPosition());
+	}
+
 	
 }

@@ -14,6 +14,6 @@ public class ShootAtWall extends CommandGroup {
     public ShootAtWall() {
         addSequential(new Spool(3750));
         Timer.delay(2.0);
-        addSequential(new Shoot());
+        addParallel(new Shoot(10));
     }
 }

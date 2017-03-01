@@ -30,6 +30,8 @@ public class UsePreset extends Command {
 	protected void initialize() {
 		// TODO Auto-generated method stub
 		shooter.setBigFlywheelRPMSupplier(() -> preset.bigWheelRPM);
+		shooter.setBigFlywheelPIDSupplier(preset.P,preset.I,preset.D,preset.F);
+		
 	}
 
 	@Override

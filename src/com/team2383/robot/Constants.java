@@ -66,13 +66,21 @@ public class Constants {
 	
 	public static class ShooterPreset {
 		public final double bigWheelRPM;
+		public final double P;
+		public final double I;
+		public final double D;
+		public final double F;
 
 		/**
 		 * @param bigWheelRPM
 		 * @param littleWheelRPM
 		 */
-		public ShooterPreset(double bigWheelRPM) {
+		public ShooterPreset(double bigWheelRPM, double P, double I, double D, double F) {
 			this.bigWheelRPM = bigWheelRPM;
+			this.P = P;
+			this.I = I;
+			this.D = D;
+			this.F = F;
 		}
 	}
 
@@ -80,7 +88,9 @@ public class Constants {
 	//2950
 	
 	public static enum Preset {
-		close(new ShooterPreset(3480)), mid(new ShooterPreset(3650)), far(new ShooterPreset(4200));
+		close(new ShooterPreset(3480,kBigFlywheelCloseP,kBigFlywheelCloseI,kBigFlywheelCloseD, kBigFlywheelF)), 
+		mid(new ShooterPreset(3750,kBigFlywheelMidP,kBigFlywheelMidI,kBigFlywheelMidD,kBigFlywheelF)), 
+		far(new ShooterPreset(4200,kBigFlywheelFarP,kBigFlywheelFarI,kBigFlywheelFarD,kBigFlywheelF));
 
 		private final ShooterPreset preset;
 
@@ -97,19 +107,26 @@ public class Constants {
 	
 	public static double kBigFlywheelMaxRPM = 5000;
 	public static double kBigFlywheelMinRPM = 1200;
-	public static double kBigFlywheelP = 0.12; // 0.084 0.06
-	public static double kBigFlywheelI = 0.0; // 0.012 0.006
-	public static double kBigFlywheelD = 0.001; // 0.25 0.2
+	
+	//close
+	public static double kBigFlywheelCloseP = 0.12; // 0.084 0.06
+	public static double kBigFlywheelCloseI = 0.0; // 0.012 0.006
+	public static double kBigFlywheelCloseD = 0.001; // 0.25 0.2
+	
+	//mid
+	public static double kBigFlywheelMidP = 0.12; // 0.084 0.06
+	public static double kBigFlywheelMidI = 0.0; // 0.012 0.006
+	public static double kBigFlywheelMidD = 0.001; // 0.25 0.2
+	
+	//far
+	public static double kBigFlywheelFarP = 0.12; // 0.084 0.06
+	public static double kBigFlywheelFarI = 0.0; // 0.012 0.006
+	public static double kBigFlywheelFarD = 0.001; // 0.25 0.2
+	
+	
 	public static double kBigFlywheelF = 0.035;
 	public static int kBigFlywheelIZone = 40;
 	
-	public static double kLittleFlywheelMaxRPM = 5000;
-	public static double kLittleFlywheelMinRPM = 1200;
-	public static double kLittleFlywheelP = 0.014;
-	public static double kLittleFlywheelI = 0.008;
-	public static double kLittleFlywheelD = 0.28;
-	public static double kLittleFlywheelF = 0.0435;
-	public static int kLittleFlywheelIZone = 40;
 
 	/*
 	 * Drive Constants
@@ -142,7 +159,7 @@ public class Constants {
 	public static double kDriveHeadingMaintainD = 0.01;
 	public static double kDriveHeadingMaintainF = 0;
 
-	public static double kDrivePositionTolerance = 0.75;
+	public static double kDrivePositionTolerance = 0.005603;
 	public static double kDrivePositionP = 0.3;
 	public static double kDrivePositionI = 0.001;
 	public static double kDrivePositionD = 0.250;

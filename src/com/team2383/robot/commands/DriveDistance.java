@@ -100,20 +100,18 @@ public class DriveDistance extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		Timer.delay(2.0);
-		/*
 		if (Math.abs(distanceController.getError()) <= tolerance) {
 			timeAtSetpoint += this.timeSinceInitialized() - lastCheck;
 		} else {
 			timeAtSetpoint = 0;
 		}
+		SmartDashboard.putNumber("rotations", drivetrain.pidGet());
+		SmartDashboard.putNumber("Get Distance", drivetrain.getInches());
 		SmartDashboard.putNumber("error", distanceController.getError());
 		SmartDashboard.putNumber("Tolerance", tolerance);
 		SmartDashboard.putNumber("timeAtSetpoint", timeAtSetpoint);
 		lastCheck = this.timeSinceInitialized();
 		return finish && timeAtSetpoint >= wait;
-		*/
-		return true;
 	}
 
 	@Override

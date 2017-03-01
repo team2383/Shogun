@@ -160,6 +160,24 @@ public class Drivetrain extends Subsystem implements PIDSource{
 		}
 		return rotations;
 	}
+	
+	public double getError(){
+		double error;
+		if (leftMaster.isSensorPresent(
+				FeedbackDevice.CtreMagEncoder_Relative) == FeedbackDeviceStatus.FeedbackStatusNotPresent)
+			return 0;
+		if (rightMaster.isSensorPresent(
+				FeedbackDevice.CtreMagEncoder_Relative) == FeedbackDeviceStatus.FeedbackStatusNotPresent)
+			return 0;
+		try {
+			error = (rightMaster.getClosedLoopError() + leftMaster.getClosedLoopError()) / 2;
+		} catch (Throwable e) {
+			System.out.println("Failed to get error of drivetrain");
+			error = 0;
+		}
+		return error;
+	}
+	
 
 	public double getInches() {
 		return getRotations() * Constants.kDriveWheelCircumference;
@@ -200,7 +218,7 @@ public class Drivetrain extends Subsystem implements PIDSource{
 
 	@Override
 	public double pidGet() {
-		return getInches();
+		return getError();
 	}
 	
 	public void holdPosition() {

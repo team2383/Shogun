@@ -8,7 +8,6 @@ import com.team2383.auto.VishAuto;
 import com.team2383.ninjaLib.NullCommand;
 import com.team2383.robot.commands.GeneralPeriodic;
 
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -18,12 +17,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
-	private UsbCamera camera0;
 
 	Command autoCommand;
 	Command generalPeriodicCommand = new GeneralPeriodic();
 	SendableChooser<Command> autoChooser;
-
 	@SuppressWarnings("unused")
 	@Override
 	public void robotInit() {
@@ -31,6 +28,7 @@ public class Robot extends IterativeRobot {
 		Constants constants = new Constants();
 		OI oi = new OI();
 		
+		CameraServer.getInstance().startAutomaticCapture();
 		
 		autoChooser = new SendableChooser<Command>();
 		autoChooser.addObject("null auto", new NullAuto());
@@ -75,8 +73,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		HAL.navX.reset();
-	
-		CameraServer.getInstance().startAutomaticCapture();
+		
 		if (!generalPeriodicCommand.isRunning()) {
 			generalPeriodicCommand.start();
 		}

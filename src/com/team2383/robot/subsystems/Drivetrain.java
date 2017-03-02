@@ -153,7 +153,7 @@ public class Drivetrain extends Subsystem implements PIDSource{
 				FeedbackDevice.CtreMagEncoder_Relative) == FeedbackDeviceStatus.FeedbackStatusNotPresent)
 			return 0;
 		try {
-			rotations = (leftMaster.getSpeed() + rightMaster.getSpeed())/2.0;
+			rotations = (leftMaster.getSpeed()); //+ rightMaster.getSpeed())/2.0;
 		} catch (Throwable e) {
 			System.out.println("Failed to get encoder speed of drivetrain");
 			rotations = 0;
@@ -170,7 +170,7 @@ public class Drivetrain extends Subsystem implements PIDSource{
 				FeedbackDevice.CtreMagEncoder_Relative) == FeedbackDeviceStatus.FeedbackStatusNotPresent)
 			return 0;
 		try {
-			error = (rightMaster.getClosedLoopError() + leftMaster.getClosedLoopError()) / 2;
+			error = (rightMaster.getClosedLoopError()); //+ leftMaster.getClosedLoopError()) / 2;
 		} catch (Throwable e) {
 			System.out.println("Failed to get error of drivetrain");
 			error = 0;

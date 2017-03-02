@@ -16,7 +16,7 @@ public class Tuner {
 	private final double tickLength;
 	private final double minHoldTime;
 	
-	private double value;
+	private double value = 0;
 	
 	private double lastTick = 0;
 	private double totalHoldTime = 0;
@@ -38,6 +38,7 @@ public class Tuner {
 
 		@Override
 		protected void execute() {
+			value = shooter.getBigWheelRPMSetpoint();
 			tickTime += this.timeSinceInitialized() - lastTick;
 			totalHoldTime += tickTime;
 			if(totalHoldTime >= minHoldTime && tickTime >= tickLength) {

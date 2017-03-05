@@ -15,6 +15,7 @@ import com.team2383.ninjaLib.WPILambdas;
 import com.team2383.robot.subsystems.Feeder;
 import com.team2383.robot.subsystems.Flap;
 import com.team2383.robot.Constants.Preset;
+import com.team2383.robot.commands.AutoDriveStraight;
 import com.team2383.robot.commands.DumbSpool;
 import com.team2383.robot.commands.Tuner;
 import com.team2383.robot.commands.MoveTurret;
@@ -100,6 +101,8 @@ public class OI {
 	public static Button visionShoot = driver.getRightTriggerClick();
 	
 	public static Button toggleAutoShift = driver.getButtonA();
+	
+	public static Button gearBackward = driver.getButtonB();
 
 	public static DoubleSupplier throttle = () -> deadband.applyAsDouble(driver.getLeftY());
 	public static DoubleSupplier turn = () -> deadband.applyAsDouble(driver.getRightX());
@@ -157,6 +160,8 @@ public class OI {
 		
 		precisionDrive.whileHeld(new PrecisionDrive(throttle, turn, toggleAutoShift::get, shiftDown::get, shiftUp::get));
 		driveStraight.whileHeld(new TeleopDriveStraight(throttle));
+		
+		gearBackward.whenPressed((new AutoDriveStraight(() -> 0.4, 0.6)));
 		
 		
 		feedIn.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.FEEDING, Feeder.State.STOPPED));

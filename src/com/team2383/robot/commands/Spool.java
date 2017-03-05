@@ -18,17 +18,18 @@ public class Spool extends Command {
 	 * @param bigWheelRPM
 	 * @param timeout
 	 */
-	public Spool(double bigWheelRPM, double littleWheelRPM, double timeout) {
+	public Spool(double bigWheelRPM, double timeout) {
 		this(() -> bigWheelRPM, timeout);
 	}
 
 	/**
 	 * @param bigWheelRPM
-	 * @param littleWheelRPM
+	 * @param littleWheelRPM2
 	 */
 	public Spool(double bigWheelRPM) {
 		this(() -> bigWheelRPM);
 	}
+	
 
 	public Spool(DoubleSupplier bigWheelRPMSupplier, double timeout) {
 		super("Spool To RPM", timeout);

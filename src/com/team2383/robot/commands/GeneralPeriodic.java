@@ -4,7 +4,7 @@ import static com.team2383.robot.HAL.shooter;
 import static com.team2383.robot.HAL.navX;
 
 import com.team2383.auto.TestDrive;
-
+import com.team2383.robot.Constants;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -31,6 +31,8 @@ public class GeneralPeriodic extends Command {
     	SmartDashboard.putNumber("Gyro Roll", navX.getRoll());
     	SmartDashboard.putNumber("BigWheelSpeed", shooter.getBigWheelRPM());
     	SmartDashboard.putNumber("BigWheelSetpoint setpoint", shooter.getBigWheelRPMSetpoint());
+    	SmartDashboard.putNumber("drive straight time throttle", Constants.kdriveStraightTestThrottle);
+    	SmartDashboard.putNumber("Drive Straight time time", Constants.kdriveStraightTestTime);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -14,17 +14,16 @@ public class Shooter extends Subsystem {
 
 	private DoubleSupplier bigFlywheelRPMSupplier = () -> 0;
 	
-	private double[] pidSupplier = new double[3];
-	
 	public Shooter() {
-		double[] pidSupplier = {Constants.kBigFlywheelMidP, Constants.kBigFlywheelMidI,Constants.kBigFlywheelMidD, Constants.kBigFlywheelF};
+		
 		bigFlywheel.enableBrakeMode(false);
 		bigFlywheel.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		bigFlywheel.changeControlMode(TalonControlMode.Speed);
 		bigFlywheel.reverseOutput(false);
 		bigFlywheel.reverseSensor(false);
-		bigFlywheel.configPeakOutputVoltage(12.0,  -3.0);
-		bigFlywheel.setPID(pidSupplier[0],pidSupplier[1],pidSupplier[2],pidSupplier[3] ,Constants.kBigFlywheelIZone, 0.0,0);
+		bigFlywheel.configPeakOutputVoltage(12.0, -3.0);
+		bigFlywheel.setPID(Constants.kBigFlywheelP, Constants.kBigFlywheelI, Constants.kBigFlywheelD,
+				Constants.kBigFlywheelF, Constants.kBigFlywheelIZone, 0, 0);
 		bigFlywheel.enable();
 	}
 	
@@ -34,7 +33,6 @@ public class Shooter extends Subsystem {
 	 */
 	public void spool() {
 		bigFlywheel.changeControlMode(TalonControlMode.Speed);
-		bigFlywheel.setPID(pidSupplier[0],pidSupplier[1],pidSupplier[2],pidSupplier[3] ,Constants.kBigFlywheelIZone, 0.0,0);
 		bigFlywheel.enable();
 		bigFlywheel.setSetpoint(bigFlywheelRPMSupplier.getAsDouble());
 		bigFlywheel.enableBrakeMode(false);
@@ -74,12 +72,6 @@ public class Shooter extends Subsystem {
 		bigFlywheelRPMSupplier = rpmSupplier;
 	}
 	
-	public void setBigFlywheelPIDSupplier(double P, double I, double D, double F){
-		this.pidSupplier[0] = P;
-		this.pidSupplier[1] = I;
-		this.pidSupplier[2] = D;
-		this.pidSupplier[3] = F;
-	}
 	
 	public double getBigWheelRPM() {
 		return bigFlywheel.getSpeed();

@@ -5,8 +5,9 @@ import java.util.function.DoubleSupplier;
 import com.team2383.ninjaLib.NullPIDOutput;
 import com.team2383.robot.Constants;
 
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Timer;
+
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 
 import static com.team2383.robot.HAL.drivetrain;
@@ -19,6 +20,8 @@ public class AutoDriveStraight extends Command {
 	private final DoubleSupplier throttle;
 	private final double time;
 	private final PIDController headingController;
+	private boolean finish;
+	private Timer timer;
 
 	public AutoDriveStraight(DoubleSupplier throttle, double time) {
 		super("Auto Drive");
@@ -32,6 +35,7 @@ public class AutoDriveStraight extends Command {
 		headingController.setContinuous();
 		headingController.setAbsoluteTolerance(Constants.kDriveHeadingMaintainTolerance);
 		headingController.setSetpoint(0);
+		finish = true;
 	}
 	
 
@@ -39,24 +43,24 @@ public class AutoDriveStraight extends Command {
 	protected void initialize() {
 		navX.reset();
 		headingController.enable();
+		timer = new Timer();
+		timer.reset();
+		timer.start();
 	}
 
 	@Override
 	protected void execute() {
-		if (this.timeSinceInitialized() < 0.1){
+		if (this.timeSinceInitialized() > 0.1) {
+			drivetrain.arcade(throttle.getAsDouble(), -headingController.get());
+		} else {
 			drivetrain.arcade(throttle.getAsDouble(), 0);
 			System.out.println("Waiting for reset " + this.timeSinceInitialized());
-		}
-		else if ((this.timeSinceInitialized() > 0.1) && (this.timeSinceInitialized() <= time)) {
-			drivetrain.arcade(throttle.getAsDouble(), -headingController.get());
-		} else{
-			end();
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return finish && (timer.get() >= time);
 	}
 
 	@Override
@@ -71,4 +75,3 @@ public class AutoDriveStraight extends Command {
 		headingController.disable();
 	}
 }
-

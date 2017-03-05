@@ -1,10 +1,14 @@
 	
 package com.team2383.robot;
 
-import com.team2383.auto.ShootAtWall;
+import com.team2383.auto.FlapOpen;
+import com.team2383.auto.LeftGearShoot;
+import com.team2383.auto.LeftWallShot;
+import com.team2383.auto.MiddleGearShoot;
+import com.team2383.auto.RightGearShoot;
+import com.team2383.auto.RightWallShot;
 import com.team2383.auto.TestDrive;
 import com.team2383.auto.TestTurn;
-import com.team2383.auto.VishAuto;
 import com.team2383.ninjaLib.NullCommand;
 import com.team2383.robot.commands.GeneralPeriodic;
 
@@ -32,10 +36,12 @@ public class Robot extends IterativeRobot {
 		
 		autoChooser = new SendableChooser<Command>();
 		autoChooser.addObject("null auto", new NullAuto());
-		autoChooser.addObject("Test Drive", new TestDrive());
-		autoChooser.addObject("Test Turn", new TestTurn());
-		autoChooser.addObject("Shoot At Wall", new ShootAtWall());
-		autoChooser.addObject("Vish Auto", new VishAuto());
+		autoChooser.addObject("Middle Gear Shoot", new MiddleGearShoot());
+		autoChooser.addObject("Left Gear Shoot", new LeftGearShoot());
+		autoChooser.addObject("Right Gear Shoot", new RightGearShoot());
+		autoChooser.addObject("Flap Open", new FlapOpen());
+		autoChooser.addObject("LeftWallShot", new LeftWallShot());
+		autoChooser.addObject("Right Wall Shot", new RightWallShot());
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		
 	}

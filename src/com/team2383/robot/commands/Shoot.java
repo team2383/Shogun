@@ -36,7 +36,7 @@ public class Shoot extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return this.isTimedOut();
+		return false;
 	}
 
 	@Override

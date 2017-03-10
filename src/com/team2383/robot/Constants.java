@@ -93,14 +93,14 @@ public class Constants {
 		}
 	}
 	
-	public static double kFlywheelRPMTolerance = 30;
+	public static double kFlywheelRPMTolerance = 200;
 	
 	public static double kBigFlywheelMaxRPM = 5000;
 	public static double kBigFlywheelMinRPM = 1200;
-	public static double kBigFlywheelP = 0.115; // 0.084 0.06
-	public static double kBigFlywheelI = 0.001; // 0.012 0.006
-	public static double kBigFlywheelD = 0.001; // 0.25 0.2
-	public static double kBigFlywheelF = 0.035;
+	public static double kBigFlywheelP = 0.05; // 0.084 0.06
+	public static double kBigFlywheelI = 0.0; // 0.012 0.006
+	public static double kBigFlywheelD = 0.5; // 0.25 0.2
+	public static double kBigFlywheelF = 0.0335;
 	public static int kBigFlywheelIZone = 40;
 	
 	public static double kLittleFlywheelMaxRPM = 5000;
@@ -110,6 +110,8 @@ public class Constants {
 	public static double kLittleFlywheelD = 0.28;
 	public static double kLittleFlywheelF = 0.0435;
 	public static int kLittleFlywheelIZone = 40;
+	
+	public static double kShooterWaitTime = 0.8;
 
 	/*
 	 * Drive Constants

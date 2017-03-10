@@ -11,17 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *
+ * 56.5 83.5 60 degree
  */
-public class LeftGearShoot extends CommandGroup {
+public class LeftGearTime extends CommandGroup {
 
-    public LeftGearShoot() {
+    public LeftGearTime() {
     	addSequential(new EnableFlap());
     	addSequential(new AutoDriveStraight(() -> 1.0, Constants.kdriveStraightTestTime));
     	addSequential(new GyroTurn(30));
     	addSequential(new AutoDriveStraight(() -> 0.4, 1.0));
-    	addSequential(new Spool(3500,2.0));
-        addParallel(new Spool(3500));
-        addParallel(new Shoot());
     }
 }

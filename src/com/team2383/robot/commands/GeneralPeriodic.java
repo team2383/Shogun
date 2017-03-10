@@ -2,6 +2,7 @@ package com.team2383.robot.commands;
 
 import static com.team2383.robot.HAL.shooter;
 import static com.team2383.robot.HAL.navX;
+import static com.team2383.robot.HAL.drivetrain;
 
 import com.team2383.auto.TestDrive;
 import com.team2383.robot.Constants;
@@ -33,6 +34,8 @@ public class GeneralPeriodic extends Command {
     	SmartDashboard.putNumber("BigWheelSetpoint setpoint", shooter.getBigWheelRPMSetpoint());
     	SmartDashboard.putNumber("drive straight time throttle", Constants.kdriveStraightTestThrottle);
     	SmartDashboard.putNumber("Drive Straight time time", Constants.kdriveStraightTestTime);
+    	SmartDashboard.putNumber("drivetrain rotations", drivetrain.getRotations());
+    	SmartDashboard.putNumber("drivetrain inches", drivetrain.getInches());
     }
 
     // Make this return true when this Command no longer needs to run execute()

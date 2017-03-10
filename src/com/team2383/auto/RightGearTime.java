@@ -12,14 +12,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class RightGearShoot extends CommandGroup {
-	    public RightGearShoot() {
+public class RightGearTime extends CommandGroup {
+	    public RightGearTime() {
 	    	addSequential(new EnableFlap());
 	    	addSequential(new AutoDriveStraight(() -> Constants.kdriveStraightTestThrottle, Constants.kdriveStraightTestTime));
 	    	addSequential(new GyroTurn(-30));
 	    	addSequential(new AutoDriveStraight(() -> 0.4, 1.0));
-	    	addSequential(new Spool(3500,2.0));
-	        addParallel(new Spool(3500));
-	        addParallel(new Shoot());
 	    }
 }

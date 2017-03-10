@@ -106,8 +106,6 @@ public class DriveDistance extends Command {
 			timeAtSetpoint = 0;
 		}
 		SmartDashboard.putNumber("error", distanceController.getError());
-		SmartDashboard.putNumber("rotations", drivetrain.getRotations());
-		SmartDashboard.putNumber("Get Distance", drivetrain.getInches());
 		SmartDashboard.putNumber("Tolerance", tolerance);
 		SmartDashboard.putNumber("timeAtSetpoint", timeAtSetpoint);
 		lastCheck = this.timeSinceInitialized();

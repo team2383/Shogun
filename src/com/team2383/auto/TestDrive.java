@@ -9,6 +9,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class TestDrive extends CommandGroup {
 	public TestDrive() {
-		addSequential(new AutoDriveStraight(() -> Constants.kdriveStraightTestThrottle, Constants.kdriveStraightTestTime));
+		addSequential(new DriveDistance(0, 0.6, Gear.LOW, true));
 	}
 }

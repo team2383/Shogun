@@ -3,6 +3,7 @@ package com.team2383.robot.commands;
 import static com.team2383.robot.HAL.conveyor;
 import static com.team2383.robot.HAL.agitator;
 import static com.team2383.robot.HAL.shooter;
+import static com.team2383.robot.HAL.feeder;
 
 import java.util.function.DoubleSupplier;
 
@@ -61,11 +62,13 @@ public class AutoShoot extends Command {
 			// so we should run the feeder to shoot
 			conveyor.feed();
 			agitator.feed();
+			feeder.feedIn();
 
-			// we are done and can stop the feeder and scommand
+			// we are done and can stop the feeder and command
 			if (this.timeSinceInitialized() - shootStartTime > time) {
 				conveyor.stop();
 				agitator.stop();
+				feeder.feedIn();
 				done = true;
 			}
 		} else {
@@ -86,6 +89,7 @@ public class AutoShoot extends Command {
 		shooter.stop();
 		agitator.stop();
 		conveyor.stop();
+		feeder.stop();
 	}
 
 	@Override

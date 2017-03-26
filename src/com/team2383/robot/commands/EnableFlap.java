@@ -2,9 +2,9 @@ package com.team2383.robot.commands;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
-import static com.team2383.robot.HAL.flap;
+import static com.team2383.robot.HAL.gearFlap;
 
-import com.team2383.robot.subsystems.Flap.State;
+import com.team2383.robot.subsystems.GearFlap.State;
 
 /**
  *
@@ -14,7 +14,7 @@ public class EnableFlap extends Command {
 
     public EnableFlap() {
         super("Enable Flap");
-        requires(flap);
+        requires(gearFlap);
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +23,7 @@ public class EnableFlap extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	flap.setState(State.EXTENDED);
+    	gearFlap.setState(State.EXTENDED);
     	end();
     }
 

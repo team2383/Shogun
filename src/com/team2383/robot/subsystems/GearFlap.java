@@ -5,15 +5,16 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.team2383.ninjaLib.SetState.StatefulSubsystem;
 import com.team2383.robot.Constants;
 import com.team2383.robot.subsystems.Drivetrain.Gear;
+import com.team2383.robot.subsystems.GearDoor.State;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-public class Flap extends com.team2383.ninjaLib.SetState.StatefulSubsystem<Flap.State> {
-	private DoubleSolenoid flap = new DoubleSolenoid(Constants.kFlapForward, Constants.kFlapBackward);
+public class GearFlap extends com.team2383.ninjaLib.SetState.StatefulSubsystem<GearFlap.State> {
+	private DoubleSolenoid gearFlap = new DoubleSolenoid(Constants.kGearFlapForward, Constants.kGearFlapBackward);
 	private State state = State.RETRACTED;
 	
-	public Flap() {
+	public GearFlap() {
 		setState(State.RETRACTED);
 	}
 
@@ -25,12 +26,12 @@ public class Flap extends com.team2383.ninjaLib.SetState.StatefulSubsystem<Flap.
 	public void setState(State state) {
 		switch (state) {
 			case EXTENDED:
-				flap.set(Value.kForward);
+				gearFlap.set(Value.kForward);
 				break;
 
 			default:
 			case RETRACTED:
-				flap.set(Value.kReverse);
+				gearFlap.set(Value.kReverse);
 				break;
 		}
 	}
@@ -39,4 +40,5 @@ public class Flap extends com.team2383.ninjaLib.SetState.StatefulSubsystem<Flap.
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
 	}
+
 }

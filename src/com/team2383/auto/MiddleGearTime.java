@@ -2,6 +2,7 @@ package com.team2383.auto;
 
 import com.team2383.robot.Constants;
 import com.team2383.robot.commands.AutoDriveStraight;
+import com.team2383.robot.commands.AutoShoot;
 import com.team2383.robot.commands.DisableFlap;
 import com.team2383.robot.commands.EnableFlap;
 import com.team2383.robot.commands.Shoot;
@@ -18,6 +19,7 @@ public class MiddleGearTime extends CommandGroup {
     public MiddleGearTime() {
     	addSequential(new EnableFlap());
     	addSequential(new AutoDriveStraight(() -> Constants.kdriveStraightTestThrottle, Constants.kdriveStraightTestTime));
-    	addSequential (new AutoDriveStraight(() -> 0.5, 0.7));
+    	addSequential (new AutoDriveStraight(() -> 0.2, 0.4));
+    	addSequential(new AutoShoot(() -> 3795, 10.0));
     }
 }

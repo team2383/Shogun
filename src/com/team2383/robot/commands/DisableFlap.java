@@ -1,8 +1,8 @@
 package com.team2383.robot.commands;
 
-import static com.team2383.robot.HAL.flap;
+import static com.team2383.robot.HAL.gearFlap;
 
-import com.team2383.robot.subsystems.Flap.State;
+import com.team2383.robot.subsystems.GearFlap.State;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -14,7 +14,7 @@ public class DisableFlap extends Command {
 
     public DisableFlap() {
         super("Disable Flap");
-        requires(flap);
+        requires(gearFlap);
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +23,7 @@ public class DisableFlap extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	flap.setState(State.RETRACTED);
+    	gearFlap.setState(State.RETRACTED);
     	end();
     }
 

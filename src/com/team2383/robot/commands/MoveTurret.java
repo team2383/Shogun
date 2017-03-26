@@ -7,9 +7,9 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Moves arms until canceled or times out
+ * Moves until canceled or times out
  *
- * @author Matthew Alonso
+ * 
  *
  */
 
@@ -17,7 +17,7 @@ public class MoveTurret extends Command {
 	private final DoubleSupplier turretPower;
 
 	public MoveTurret(DoubleSupplier turretPower) {
-		super("Move Turret");
+		super("Move Hood");
 		requires(turret);
 		this.turretPower = turretPower;
 	}
@@ -51,4 +51,5 @@ public class MoveTurret extends Command {
 	protected void interrupted() {
 		turret.stop();
 	}
+
 }

@@ -11,6 +11,7 @@ public class Wait extends Command {
 	private Timer timer;
     public Wait(double time) {
        this.time = time;
+      
     }
 
     // Called just before this Command runs the first time

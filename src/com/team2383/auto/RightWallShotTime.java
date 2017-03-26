@@ -18,10 +18,11 @@ public class RightWallShotTime extends CommandGroup {
 
     public RightWallShotTime() {
     	addSequential(new EnableFlap());
-    	addSequential(new AutoDriveStraight(() -> -1.0, 1.925));
-    	addSequential(new GyroTurn(90));
-    	addSequential (new AutoDriveStraight(() -> 0.6, 1.5));
+    	addSequential(new AutoDriveStraight(() -> -0.8, 1.6));
+    	addSequential(new GyroTurn(-90));
+    	addSequential (new AutoDriveStraight(() -> 0.6, 1.725));
+    	addSequential(new AutoShoot(() -> 3130,8.0));
     	addSequential(new DisableFlap());
-    	addSequential(new AutoShoot(() -> 3190, 12.0));
     }
 }
+ 

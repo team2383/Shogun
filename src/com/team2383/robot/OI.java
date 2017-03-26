@@ -13,7 +13,8 @@ import com.team2383.ninjaLib.SetState;
 import com.team2383.ninjaLib.Values;
 import com.team2383.ninjaLib.WPILambdas;
 import com.team2383.robot.subsystems.Feeder;
-import com.team2383.robot.subsystems.Flap;
+import com.team2383.robot.subsystems.GearDoor;
+import com.team2383.robot.subsystems.GearFlap;
 import com.team2383.robot.Constants.Preset;
 import com.team2383.robot.commands.AutoDriveStraight;
 import com.team2383.robot.commands.DumbSpool;
@@ -36,7 +37,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import static com.team2383.robot.HAL.shooter;
 import static com.team2383.robot.HAL.feeder;
 import static com.team2383.robot.HAL.agitator;
-import static com.team2383.robot.HAL.flap;
+import static com.team2383.robot.HAL.gearDoor;
+import static com.team2383.robot.HAL.gearFlap;
 import static com.team2383.robot.HAL.climber;
 
 
@@ -58,16 +60,17 @@ import static com.team2383.robot.HAL.climber;
  * 		Shift -> push down on sticks, left low, right high
  *	
  *	Operator stick 1 ->
- *		Turret: Twist stick
- *		Distance Presets: buttons 7,9,11 (left row of side buttons) close to far
  *		Hopper controls: button 8 toggle on/off, button 10 unjam
  *		Feeder controls: button 3 in, 4 out
- *		Flap controls: depending on where we feed from button 12
- *		Flywheel controls: Thumb spool (2), trigger shoot (1)
  *		Climber controls: button 6
+ *		Gear Door controls: button 5
+ *		Gear Flap controls: button 12
  *
  *	Operator stick 2 (tuning stick)
- *		button 
+ *		Turret: Twist stick
+ *		Distance Presets: buttons 8,10,11 (left row of side buttons) close to far
+ *		Flywheel controls: Thumb spool (2), trigger shoot (1)
+ *		Tuning Controls: buttons 7,9 (tune up/down)
  *
  *
  */
@@ -102,7 +105,6 @@ public class OI {
 	
 	public static Button toggleAutoShift = driver.getButtonA();
 	
-	public static Button gearBackward = driver.getButtonB();
 
 	public static DoubleSupplier throttle = () -> deadband.applyAsDouble(driver.getLeftY());
 	public static DoubleSupplier turn = () -> deadband.applyAsDouble(driver.getRightX());
@@ -113,18 +115,39 @@ public class OI {
 	//Operator
 	public static Joystick operator = new Joystick(2);
 	
-	public static DoubleSupplier turretStick = () -> deadband.applyAsDouble(operator.getTwist());
 	
-	public static Button changeFlap = new JoystickButton(operator, 12);
+	public static Button feedIn = new JoystickButton(operator, 3);
+	public static Button feedOut = new JoystickButton(operator, 4);
+	
+	public static Button agitatorOn = new JoystickButton(operator, 8);
+	public static Button agitatorUnjam = new JoystickButton(operator, 10);
+	
+	public static Button climb = new JoystickButton(operator, 6);
+	public static Button actuateGearDoor = new JoystickButton(operator, 5);
+	public static Button actuateGearFlap = new JoystickButton(operator, 12);
+	
+	
 	
 	//Tuner
 	public static Joystick tuner = new Joystick(3);
+	public static DoubleSupplier turretStick = () -> deadband.applyAsDouble(tuner.getTwist());
 	
 	public static Button bigFlywheelIncrement = new JoystickButton(tuner, 7);
 	public static Button bigFlywheelDecrement = new JoystickButton(tuner, 9);
 	
-	public static Button littleFlywheelIncrement = new JoystickButton(tuner, 8);
-	public static Button littleFlywheelDecrement = new JoystickButton(tuner, 10);
+	public static Button shoot = new JoystickButton(tuner, 1);
+	public static Button spool = new JoystickButton(tuner, 2);
+
+	
+	
+	public static Button moveTurret = new JoystickButton(tuner,3);
+	
+	public static Button presetClose = new JoystickButton(tuner, 8);
+	public static Button presetMid = new JoystickButton(tuner, 10);
+	public static Button presetFar = new JoystickButton(tuner, 11);
+	
+	
+	
 	
 	public static Button enableTuning = WPILambdas.createButton(() -> {
 		boolean result = false;
@@ -133,27 +156,8 @@ public class OI {
 		}
 		return result;
 	});
-
 	
-	/*
-	 * Preset buttons will replace this comment
-	 */
-	public static Button shoot = new JoystickButton(operator, 1);
-	public static Button spool = new JoystickButton(operator, 2);
-
-	public static Button feedIn = new JoystickButton(operator, 3);
-	public static Button feedOut = new JoystickButton(operator, 4);
 	
-	public static Button agitatorOn = new JoystickButton(operator, 8);
-	public static Button agitatorUnjam = new JoystickButton(operator, 10);
-	
-	public static Button moveTurret = new OnChangeButton(OI.turretStick, 0.2);
-	
-	public static Button presetClose = new JoystickButton(operator, 7);
-	public static Button presetMid = new JoystickButton(operator, 9);
-	public static Button presetFar = new JoystickButton(operator, 11);
-	
-	public static Button climb = new JoystickButton(operator, 6);
 	
 	
 	public OI() {
@@ -161,7 +165,6 @@ public class OI {
 		precisionDrive.whileHeld(new PrecisionDrive(throttle, turn, toggleAutoShift::get, shiftDown::get, shiftUp::get));
 		driveStraight.whileHeld(new TeleopDriveStraight(throttle));
 		
-		gearBackward.whenPressed((new AutoDriveStraight(() -> 0.4, 0.6)));
 		
 		
 		feedIn.whileHeld(new SetState<Feeder.State>(feeder, Feeder.State.FEEDING, Feeder.State.STOPPED));
@@ -176,7 +179,9 @@ public class OI {
 		moveTurret.whileHeld(new MoveTurret(OI.turretStick));
 		
 		
-		changeFlap.toggleWhenActive(new SetState<Flap.State>(flap, Flap.State.EXTENDED, Flap.State.RETRACTED));
+		actuateGearDoor.toggleWhenActive(new SetState<GearDoor.State>(gearDoor, GearDoor.State.EXTENDED, GearDoor.State.RETRACTED));
+		actuateGearFlap.toggleWhenActive(new SetState<GearFlap.State>(gearFlap, GearFlap.State.EXTENDED, GearFlap.State.RETRACTED));
+		
 		spool.whileHeld(new Spool());
 		shoot.whileHeld(new Shoot());
 		

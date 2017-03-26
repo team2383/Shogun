@@ -19,10 +19,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Drivetrain extends Subsystem implements PIDSource{
 	private final RobotDrive robotDrive;
-	private final CANTalon leftMaster;
+	public final CANTalon leftMaster;
 	private final CANTalon leftSlaveOne;
 	private final CANTalon leftSlaveTwo;
-	private final CANTalon rightMaster;
+	public final CANTalon rightMaster;
 	private final CANTalon rightSlaveOne;
 	private final CANTalon rightSlaveTwo;
 	private final DoubleSolenoid shifter;

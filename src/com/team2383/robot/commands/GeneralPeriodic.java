@@ -34,6 +34,9 @@ public class GeneralPeriodic extends Command {
     	SmartDashboard.putNumber("BigWheelSetpoint setpoint", shooter.getBigWheelRPMSetpoint());
     	SmartDashboard.putNumber("drive straight time throttle", Constants.kdriveStraightTestThrottle);
     	SmartDashboard.putNumber("Drive Straight time time", Constants.kdriveStraightTestTime);
+    	
+    	SmartDashboard.putNumber("drivetrain left rotations", drivetrain.leftMaster.getPosition());
+    	SmartDashboard.putNumber("drivetrain right rotations", drivetrain.rightMaster.getPosition());
     	SmartDashboard.putNumber("drivetrain rotations", drivetrain.getRotations());
     	SmartDashboard.putNumber("drivetrain inches", drivetrain.getInches());
     }

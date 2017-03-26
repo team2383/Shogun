@@ -30,8 +30,11 @@ public class Constants {
 	 */
 	public static final int kShifterForward = 0;
 	public static final int kShifterReverse = 1;
-	public static final int kFlapForward = 2;
-	public static final int kFlapBackward = 3;
+	public static final int kGearDoorForward = 3;
+	public static final int kGearDoorBackward = 2;
+	
+	public static final int kGearFlapForward = 4;
+	public static final int kGearFlapBackward = 5;
 	
 	/*
 	 * Turret Constants
@@ -93,7 +96,7 @@ public class Constants {
 		}
 	}
 	
-	public static double kFlywheelRPMTolerance = 200;
+	public static double kFlywheelRPMTolerance = 300;
 	
 	public static double kBigFlywheelMaxRPM = 5000;
 	public static double kBigFlywheelMinRPM = 1200;
@@ -111,7 +114,7 @@ public class Constants {
 	public static double kLittleFlywheelF = 0.0435;
 	public static int kLittleFlywheelIZone = 40;
 	
-	public static double kShooterWaitTime = 0.8;
+	public static double kShooterWaitTime = 1.5;
 
 	/*
 	 * Drive Constants
@@ -124,7 +127,7 @@ public class Constants {
 	public static final int kRightSlaveTwoTalonID = 6;
 	
 	
-	public static double kDriveWheelDiameter = 4;
+	public static double kDriveWheelDiameter = 3.95;
 	public static double kDriveWheelCircumference = kDriveWheelDiameter * Math.PI;
 	public static double kDriveInchesPerDegree = kDriveWheelCircumference / 360.0;
 	public static double kDriveFeetPerDegree = kDriveInchesPerDegree / 12.0;
@@ -133,7 +136,7 @@ public class Constants {
 
 	public static double kDriveTurnTolerance = 2.0;
 	public static double kDriveTurnP = 0.075;
-	public static double kDriveTurnI = 0.0; //0.01
+	public static double kDriveTurnI = 0.0015; //0.01
 	public static double kDriveTurnD = 0.15;  //0.4
 	public static double kDriveTurnIZone = 5;
 	public static double kDriveTurnVelocity = 1.0;
@@ -145,9 +148,9 @@ public class Constants {
 	public static double kDriveHeadingMaintainF = 0;
 
 	public static double kDrivePositionTolerance = 0.75;
-	public static double kDrivePositionP = 0.69;
-	public static double kDrivePositionI = 0.00;
-	public static double kDrivePositionD = 0.001;
+	public static double kDrivePositionP = 0.345;
+	public static double kDrivePositionI = 0.02;
+	public static double kDrivePositionD = 0.000;
 	public static double kDrivePositionIZone = kDrivePositionTolerance * 4.0;
 	public static double kDrivePositionF = 0;
 

@@ -20,10 +20,9 @@ public class LeftWallShotTime extends CommandGroup {
 
     public LeftWallShotTime() {        
         addSequential(new EnableFlap());
-    	addSequential(new AutoDriveStraight(() -> -0.8, 2.55));
-    	addSequential(new GyroTurn(-90));
-    	addSequential (new AutoDriveStraight(() -> -0.6, 1.7));
-    	addSequential(new DisableFlap());
-    	addSequential(new AutoShoot(() -> 3190, 12.0));
+    	addSequential(new AutoDriveStraight(() -> -0.8, 2.5));
+    	addSequential(new GyroTurn(90));
+    	addSequential (new AutoDriveStraight(() -> 0.6, 2.0));
+    	addSequential(new AutoShoot(() -> 3290, 12.0));
     }
 }

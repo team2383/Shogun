@@ -126,6 +126,15 @@ public class Drivetrain extends Subsystem implements PIDSource{
 			return Gear.LOW;
 		}
 	}
+	
+	public boolean isHigh(){
+		if(shifter.get() == Value.kForward){
+			return true;
+		}
+		else {
+			return false;
+		}	
+	}
 
 	public double getRotations() {
 		double rotations;

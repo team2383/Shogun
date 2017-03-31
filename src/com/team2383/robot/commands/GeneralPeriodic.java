@@ -3,6 +3,8 @@ package com.team2383.robot.commands;
 import static com.team2383.robot.HAL.shooter;
 import static com.team2383.robot.HAL.navX;
 import static com.team2383.robot.HAL.drivetrain;
+import static com.team2383.robot.HAL.gearDoor;
+import static com.team2383.robot.HAL.gearFlap;
 
 import com.team2383.auto.TestDrive;
 import com.team2383.robot.Constants;
@@ -39,6 +41,10 @@ public class GeneralPeriodic extends Command {
     	SmartDashboard.putNumber("drivetrain right rotations", drivetrain.rightMaster.getPosition());
     	SmartDashboard.putNumber("drivetrain rotations", drivetrain.getRotations());
     	SmartDashboard.putNumber("drivetrain inches", drivetrain.getInches());
+    	
+    	SmartDashboard.putBoolean("Closed Door?", gearDoor.isClosed());
+    	SmartDashboard.putBoolean("Closed Flap?", gearFlap.isClosed());
+    	SmartDashboard.putBoolean("High gear?", drivetrain.isHigh());
     }
 
     // Make this return true when this Command no longer needs to run execute()

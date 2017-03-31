@@ -34,11 +34,12 @@ public class Robot extends IterativeRobot {
 	@SuppressWarnings("unused")
 	@Override
 	public void robotInit() {
+		CameraServer.getInstance().startAutomaticCapture();
 		HAL hal = new HAL();
 		Constants constants = new Constants();
 		OI oi = new OI();
 		
-		CameraServer.getInstance().startAutomaticCapture();
+		
 		
 		autoChooser = new SendableChooser<Command>();
 		autoChooser.addObject("null auto", new NullAuto());
@@ -99,6 +100,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		
 		HAL.navX.reset();
 		
 		if (!generalPeriodicCommand.isRunning()) {

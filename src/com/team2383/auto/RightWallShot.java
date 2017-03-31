@@ -17,10 +17,11 @@ public class RightWallShot extends CommandGroup {
 
     public RightWallShot() {
     	addSequential(new EnableFlap());
-        addSequential(new DriveDistance(82, 0.4, Gear.LOW, true));
-    	addSequential(new GyroTurn(90));
-    	addSequential(new DriveDistance(33, 0.4, Gear.LOW, true));
+    	addSequential(new DriveDistance(116, 0.90, Gear.LOW, true));
+    	addSequential(new GyroTurn(1.0,90,5.0));
+    	addParallel(new AutoDriveStraight(() -> -1.0, 0.5));
+    	//addSequential(new DriveDistance(28, 0.6, Gear.HIGH, true));
+    	addSequential(new AutoShoot(() -> 3600,8.0));
     	addSequential(new DisableFlap());
-    	addSequential(new AutoShoot(() -> 3190, 12.0));
     }
 }

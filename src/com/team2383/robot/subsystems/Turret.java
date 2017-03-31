@@ -34,8 +34,8 @@ public class Turret extends Subsystem {
 		turret.setReverseSoftLimit(Constants.kTurretReverseLimit);
 		turret.setForwardSoftLimit(Constants.kTurretForwardLimit);
 		turret.configPotentiometerTurns(10);
-		turret.enableForwardSoftLimit(true);
-		turret.enableReverseSoftLimit(true);
+		turret.enableForwardSoftLimit(false);
+		turret.enableReverseSoftLimit(false);
 		turret.reverseOutput(false);
 		turret.reverseSensor(true);
 	}

@@ -35,6 +35,17 @@ public class GearFlap extends com.team2383.ninjaLib.SetState.StatefulSubsystem<G
 				break;
 		}
 	}
+	
+	public boolean isClosed(){
+		if(gearFlap.get() == Value.kForward){
+			return false;
+		}
+		else if( gearFlap.get() == Value.kReverse){
+			return true;
+		}
+		else
+			return false;
+	}
 
 	@Override
 	protected void initDefaultCommand() {

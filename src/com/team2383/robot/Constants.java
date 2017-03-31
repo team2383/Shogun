@@ -48,11 +48,11 @@ public class Constants {
 	public static final double kTurretPotAngleRatio = ((double) kTurretPinionTeeth/kTurretTeeth);
 	
 
-	public static final double kTurretPositionP = 2.0;
-	public static final double kTurretPositionI = 0.005;
-	public static final double kTurretPositionD = 0.75;
-	public static final double kTurretPositionF = 0;
-	public static final int kTurretPositionIZone = 40;
+	public static final double kTurretPositionP = 0.0; //2.0
+	public static final double kTurretPositionI = 0.0; //0.005
+	public static final double kTurretPositionD = 0.0; //0.75
+	public static final double kTurretPositionF = 0;   //0
+	public static final int kTurretPositionIZone = 0;  //40
 	public static final double kTurretTolerance = 0.5/360.0; //turret pot rotations
 	
 			/**
@@ -96,7 +96,7 @@ public class Constants {
 		}
 	}
 	
-	public static double kFlywheelRPMTolerance = 300;
+	public static double kFlywheelRPMTolerance = 350;
 	
 	public static double kBigFlywheelMaxRPM = 5000;
 	public static double kBigFlywheelMinRPM = 1200;
@@ -114,7 +114,7 @@ public class Constants {
 	public static double kLittleFlywheelF = 0.0435;
 	public static int kLittleFlywheelIZone = 40;
 	
-	public static double kShooterWaitTime = 1.5;
+	public static double kShooterWaitTime = 0.8;
 
 	/*
 	 * Drive Constants
@@ -134,7 +134,7 @@ public class Constants {
 	public static double kDriveUpshiftFPSThreshold = 4.0;
 	public static double kDriveDownshiftFPSThreshold = 3.0;
 
-	public static double kDriveTurnTolerance = 2.0;
+	public static double kDriveTurnTolerance = 8.0; //2.0
 	public static double kDriveTurnP = 0.075;
 	public static double kDriveTurnI = 0.0015; //0.01
 	public static double kDriveTurnD = 0.15;  //0.4
@@ -147,10 +147,10 @@ public class Constants {
 	public static double kDriveHeadingMaintainD = 0.01;
 	public static double kDriveHeadingMaintainF = 0;
 
-	public static double kDrivePositionTolerance = 0.75;
-	public static double kDrivePositionP = 0.345;
-	public static double kDrivePositionI = 0.02;
-	public static double kDrivePositionD = 0.000;
+	public static double kDrivePositionTolerance = 1.5; //0.75
+	public static double kDrivePositionP = 0.2;   //0.345
+	public static double kDrivePositionI = 0.007; //0.02
+	public static double kDrivePositionD = 0.001;  //0
 	public static double kDrivePositionIZone = kDrivePositionTolerance * 4.0;
 	public static double kDrivePositionF = 0;
 

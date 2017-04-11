@@ -83,7 +83,7 @@ public class Constants {
 	//2950
 	
 	public static enum Preset {
-		close(new ShooterPreset(3070)), mid(new ShooterPreset(3680)), far(new ShooterPreset(4320));
+		close(new ShooterPreset(3490)), mid(new ShooterPreset(3680)), far(new ShooterPreset(4320));
 
 		private final ShooterPreset preset;
 
@@ -96,12 +96,12 @@ public class Constants {
 		}
 	}
 	
-	public static double kFlywheelRPMTolerance = 350;
+	public static double kFlywheelRPMTolerance = 700;
 	
 	public static double kBigFlywheelMaxRPM = 5000;
 	public static double kBigFlywheelMinRPM = 1200;
 	public static double kBigFlywheelP = 0.05; // 0.084 0.06
-	public static double kBigFlywheelI = 0.0; // 0.012 0.006
+	public static double kBigFlywheelI = 0.1; // 0.012 0.006
 	public static double kBigFlywheelD = 0.5; // 0.25 0.2
 	public static double kBigFlywheelF = 0.0335;
 	public static int kBigFlywheelIZone = 40;
@@ -114,7 +114,7 @@ public class Constants {
 	public static double kLittleFlywheelF = 0.0435;
 	public static int kLittleFlywheelIZone = 40;
 	
-	public static double kShooterWaitTime = 0.8;
+	public static double kShooterWaitTime = 0.5;
 
 	/*
 	 * Drive Constants

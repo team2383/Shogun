@@ -9,12 +9,14 @@ import com.team2383.auto.LeftWallShotTime;
 import com.team2383.auto.MiddleGear;
 import com.team2383.auto.MiddleGearTime;
 import com.team2383.auto.RightGearTime;
-import com.team2383.auto.RightWallShot;
+import com.team2383.auto.RightWallShotClose;
+import com.team2383.auto.RightWallShotFar;
 import com.team2383.auto.RightWallShotTime;
 import com.team2383.auto.TestDrive;
 import com.team2383.auto.TestTurn;
 import com.team2383.auto.RedShootGear;
-import com.team2383.auto.RightGear;
+import com.team2383.auto.RightGearHopper;
+import com.team2383.auto.RightGearMid;
 import com.team2383.ninjaLib.NullCommand;
 import com.team2383.robot.commands.GeneralPeriodic;
 
@@ -51,13 +53,16 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Left Gear", new LeftGear());
 		
 		autoChooser.addObject("Right Gear Time", new RightGearTime());
-		autoChooser.addObject("Right Gear", new RightGear());
+		autoChooser.addObject("Right Gear", new RightGearMid());
 		
 		autoChooser.addObject("Left Wall Shot Time", new LeftWallShotTime());
 		autoChooser.addObject("Left Wall Shot", new LeftWallShot());
 		
 		autoChooser.addObject("Right Wall Shot Time", new RightWallShotTime());
-		autoChooser.addObject("Right Wall Shot", new RightWallShot());
+		autoChooser.addObject("Right Wall Shot Far", new RightWallShotFar());
+		
+		autoChooser.addObject("Right Wall Shot Close", new RightWallShotClose());
+		autoChooser.addObject("Right Gear Hopper", new RightGearHopper());
 		
 		autoChooser.addObject("Red Wall Shot", new RedShootGear());
 		autoChooser.addObject("Blue Wall Shot", new BlueShootGear());

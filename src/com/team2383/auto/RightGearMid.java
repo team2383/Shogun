@@ -19,16 +19,17 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class RightGear extends CommandGroup {
+public class RightGearMid extends CommandGroup {
 
-    public RightGear() {
+    public RightGearMid() {
     	addSequential(new DisableFlap());
-    	addSequential(new DriveDistance(63.5, 0.7,Gear.LOW, true));
+    	addSequential(new DriveDistance(88, 0.9,Gear.LOW, true));
     	addSequential(new GyroTurn(1.0,-60,1.75));
-    	addSequential(new DriveDistance(73, 0.7, Gear.LOW, true));
-    	addSequential(new AutoDriveStraight(() -> -0.7,1.0));
-    	addSequential(new EnableDoor());
-    	addSequential(new DriveDistance(-8.0, 0.4, Gear.LOW, true));
-    	addSequential(new AutoShoot(() -> 3900,10.0));
+    	//addSequential(new DriveDistance(73, 0.7, Gear.LOW, true));
+    	addSequential(new AutoDriveStraight(() -> -0.7,2.0));
+    	addParallel(new EnableDoor());
+    	addSequential(new AutoDriveStraight(() -> 0.01,1.5));
+    	addSequential(new DriveDistance(-60.0, 0.6, Gear.LOW, true));
+    	addSequential(new AutoShoot(() -> 3360,10.0));
     }
 }

@@ -99,6 +99,7 @@ public class OI {
 	public static Button shiftUp = driver.getRightStickClick();
 	
 	public static Button driveStraight = driver.getRightShoulder();
+	public static Button backUp = driver.getButtonB();
 	
 	public static Button visionAim = driver.getLeftTriggerClick();
 	public static Button visionShoot = driver.getRightTriggerClick();
@@ -164,6 +165,7 @@ public class OI {
 		
 		precisionDrive.whileHeld(new PrecisionDrive(throttle, turn, toggleAutoShift::get, shiftDown::get, shiftUp::get));
 		driveStraight.whileHeld(new TeleopDriveStraight(throttle));
+		backUp.whenPressed((new AutoDriveStraight(() -> 0.5 , 0.25)));
 		
 		
 		

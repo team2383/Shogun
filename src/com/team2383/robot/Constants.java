@@ -100,9 +100,9 @@ public class Constants {
 	
 	public static double kBigFlywheelMaxRPM = 5000;
 	public static double kBigFlywheelMinRPM = 1200;
-	public static double kBigFlywheelP = 0.05; // 0.084 0.06
-	public static double kBigFlywheelI = 0.1; // 0.012 0.006
-	public static double kBigFlywheelD = 0.5; // 0.25 0.2
+	public static double kBigFlywheelP = 0.034; // 0.084 0.06
+	public static double kBigFlywheelI = 0.0; // 0.012 0.006
+	public static double kBigFlywheelD = 0.8; // 0.25 0.2
 	public static double kBigFlywheelF = 0.0335;
 	public static int kBigFlywheelIZone = 40;
 	

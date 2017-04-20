@@ -21,7 +21,7 @@ public class RightWallShotFar extends CommandGroup {
     	addSequential(new GyroTurn(1.0,90,3.0));
     	addParallel(new AutoDriveStraight(() -> -0.6, 1.3));
     	//addSequential(new DriveDistance(28, 0.6, Gear.HIGH, true));
-    	addSequential(new AutoShoot(() -> 3950,10.0));
+    	addSequential(new AutoShoot(() -> 3630,10.0)); //ITS CA$$H MONEY 
     	addSequential(new DisableFlap());
     }
 }

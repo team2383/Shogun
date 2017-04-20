@@ -21,7 +21,7 @@ public class LeftWallShot extends CommandGroup {
     	addSequential(new GyroTurn(1.0,-90,2.0));
     	addParallel(new AutoDriveStraight(() -> -0.7, 2.5));
     	//addSequential(new DriveDistance(28, 0.6, Gear.HIGH, true));
-    	addSequential(new AutoShoot(() -> 3750,10.0));
+    	addSequential(new AutoShoot(() -> 3800,10.0));
     	addSequential(new DisableFlap());
     }
 }

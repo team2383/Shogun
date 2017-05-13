@@ -16,12 +16,15 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class RightWallShotFar extends CommandGroup {
 
     public RightWallShotFar() {
-    	addSequential(new EnableFlap());
-    	addSequential(new DriveDistance(115, 0.90, Gear.LOW, true));
-    	addSequential(new GyroTurn(1.0,90,3.0));
-    	addParallel(new AutoDriveStraight(() -> -0.6, 1.3));
-    	//addSequential(new DriveDistance(28, 0.6, Gear.HIGH, true));
-    	addSequential(new AutoShoot(() -> 3630,10.0)); //ITS CA$$H MONEY 
     	addSequential(new DisableFlap());
+    	
+    	
+    	addSequential(new DriveDistance(116, 0.90, Gear.LOW, true));
+    	addSequential(new EnableFlap());
+    	addSequential(new GyroTurn(1.0,90,3.0));
+    	addParallel(new AutoDriveStraight(() -> -0.7, 2.5));
+    	//addSequential(new DriveDistance(28, 0.6, Gear.HIGH, true));
+    	addSequential(new AutoShoot(() -> 3720,10.0)); //ITS CA$$H MONEY 
+    	
     }
 }

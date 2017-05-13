@@ -96,7 +96,7 @@ public class Constants {
 		}
 	}
 	
-	public static double kFlywheelRPMTolerance = 700;
+	public static double kFlywheelRPMTolerance = 200;
 	
 	public static double kBigFlywheelMaxRPM = 5000;
 	public static double kBigFlywheelMinRPM = 1200;
@@ -134,22 +134,22 @@ public class Constants {
 	public static double kDriveUpshiftFPSThreshold = 4.0;
 	public static double kDriveDownshiftFPSThreshold = 3.0;
 
-	public static double kDriveTurnTolerance = 8.0; //2.0
-	public static double kDriveTurnP = 0.075;
-	public static double kDriveTurnI = 0.0015; //0.01
-	public static double kDriveTurnD = 0.15;  //0.4
+	public static double kDriveTurnTolerance = 5;
+	public static double kDriveTurnP = 0.070;
+	public static double kDriveTurnI = 0.0018; //0.01
+	public static double kDriveTurnD = 0.14;  //0.4
 	public static double kDriveTurnIZone = 5;
 	public static double kDriveTurnVelocity = 1.0;
 
 	public static double kDriveHeadingMaintainTolerance = 0.25;
-	public static double kDriveHeadingMaintainP = 0.045;
-	public static double kDriveHeadingMaintainI = 0.002;
-	public static double kDriveHeadingMaintainD = 0.01;
+	public static double kDriveHeadingMaintainP = 0.07;
+	public static double kDriveHeadingMaintainI = 0.000;
+	public static double kDriveHeadingMaintainD = 0.02;
 	public static double kDriveHeadingMaintainF = 0;
 
-	public static double kDrivePositionTolerance = 1.5; //0.75
+	public static double kDrivePositionTolerance = 1.0; //0.75
 	public static double kDrivePositionP = 0.2;   //0.345
-	public static double kDrivePositionI = 0.007; //0.02
+	public static double kDrivePositionI = 0.0075; //0.02
 	public static double kDrivePositionD = 0.001;  //0
 	public static double kDrivePositionIZone = kDrivePositionTolerance * 4.0;
 	public static double kDrivePositionF = 0;

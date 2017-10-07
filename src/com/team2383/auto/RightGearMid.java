@@ -23,13 +23,12 @@ public class RightGearMid extends CommandGroup {
 
     public RightGearMid() {
     	addSequential(new DisableFlap());
-    	addSequential(new DriveDistance(88, 0.9,Gear.LOW, true));
+    	addSequential(new DriveDistance(68, 0.9,Gear.LOW, true));
     	addSequential(new GyroTurn(1.0,-60,1.75));
     	//addSequential(new DriveDistance(73, 0.7, Gear.LOW, true));
     	addSequential(new AutoDriveStraight(() -> -0.7,2.0));
     	addParallel(new EnableDoor());
     	addSequential(new AutoDriveStraight(() -> 0.01,1.5));
     	addSequential(new DriveDistance(-60.0, 0.6, Gear.LOW, true));
-    	addSequential(new AutoShoot(() -> 3360,10.0));
     }
 }

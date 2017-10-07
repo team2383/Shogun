@@ -96,7 +96,7 @@ public class Constants {
 		}
 	}
 	
-	public static double kFlywheelRPMTolerance = 200;
+	public static double kFlywheelRPMTolerance = 400;
 	
 	public static double kBigFlywheelMaxRPM = 5000;
 	public static double kBigFlywheelMinRPM = 1200;

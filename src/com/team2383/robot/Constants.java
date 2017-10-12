@@ -136,9 +136,9 @@ public class Constants {
 
 	public static double kDriveTurnTolerance = 5;
 	public static double kDriveTurnP = 0.070;
-	public static double kDriveTurnI = 0.0018; //0.01
+	public static double kDriveTurnI = 0.0019; //0.01
 	public static double kDriveTurnD = 0.14;  //0.4
-	public static double kDriveTurnIZone = 5;
+	public static double kDriveTurnIZone = 8;
 	public static double kDriveTurnVelocity = 1.0;
 
 	public static double kDriveHeadingMaintainTolerance = 0.25;

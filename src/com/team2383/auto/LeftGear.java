@@ -22,7 +22,7 @@ public class LeftGear extends CommandGroup {
     public LeftGear() {
     	addSequential(new DisableFlap());
     	addSequential(new DriveDistance(68, 0.9,Gear.LOW, true));
-    	addSequential(new GyroTurn(1.0,60,1.75));
+    	addSequential(new GyroTurn(1.0,57,1.75));
     	//addSequential(new DriveDistance(73, 0.7, Gear.LOW, true));
     	//addSequential(new DriveDistance(60.0, 0.6, Gear.LOW, true));
     	addSequential(new AutoDriveStraight(() -> -0.7,2.0));

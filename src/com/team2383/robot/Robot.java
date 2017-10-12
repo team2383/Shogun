@@ -16,7 +16,7 @@ import com.team2383.auto.TestDrive;
 import com.team2383.auto.TestTurn;
 import com.team2383.auto.RedShootGear;
 import com.team2383.auto.RightGearHopper;
-import com.team2383.auto.RightGearMid;
+import com.team2383.auto.RightGear;
 import com.team2383.ninjaLib.NullCommand;
 import com.team2383.robot.commands.GeneralPeriodic;
 
@@ -41,31 +41,27 @@ public class Robot extends IterativeRobot {
 		Constants constants = new Constants();
 		OI oi = new OI();
 		
-		
-		
 		autoChooser = new SendableChooser<Command>();
 		autoChooser.addObject("null auto", new NullAuto());
 		
-		autoChooser.addObject("Middle Gear Time", new MiddleGearTime());
-		autoChooser.addObject("Middle Gear", new MiddleGear());
-		
-		autoChooser.addObject("Left Gear Time", new LeftGearTime());
+		autoChooser.addObject("Red Right Shoot Gear", new RedShootGear());
+		autoChooser.addObject("Blue Left Shoot Gear", new BlueShootGear());
+
 		autoChooser.addObject("Left Gear", new LeftGear());
+		autoChooser.addObject("Middle Gear", new MiddleGear());
+		autoChooser.addObject("Right Gear", new RightGear());
 		
+		/*
+		autoChooser.addObject("Middle Gear Time", new MiddleGearTime());
+		autoChooser.addObject("Left Gear Time", new LeftGearTime());
 		autoChooser.addObject("Right Gear Time", new RightGearTime());
-		autoChooser.addObject("Right Gear", new RightGearMid());
-		
 		autoChooser.addObject("Left Wall Shot Time", new LeftWallShotTime());
 		autoChooser.addObject("Left Wall Shot", new LeftWallShot());
-		
 		autoChooser.addObject("Right Wall Shot Time", new RightWallShotTime());
 		autoChooser.addObject("Right Wall Shot Far", new RightWallShotFar());
-		
 		autoChooser.addObject("Right Wall Shot Close", new RightWallShotClose());
 		autoChooser.addObject("Right Gear Hopper", new RightGearHopper());
-		
-		autoChooser.addObject("Red Wall Shot", new RedShootGear());
-		autoChooser.addObject("Blue Wall Shot", new BlueShootGear());
+		*/
 		
 		autoChooser.addObject("Test Drive", new TestDrive());
 		autoChooser.addObject("Test Turn", new TestTurn());

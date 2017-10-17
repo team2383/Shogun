@@ -19,14 +19,14 @@ public class BlueShootGear extends CommandGroup {
     public BlueShootGear() {
     	addSequential(new DisableFlap());
     	addSequential(new DriveDistance(68, 0.9,Gear.LOW, true));
-    	addSequential(new GyroTurn(1.0,57,1.75));
+    	addSequential(new GyroTurn(1.0,57,1.9));
     	//addSequential(new DriveDistance(73, 0.7, Gear.LOW, true));
     	//addSequential(new DriveDistance(60.0, 0.6, Gear.LOW, true));
-    	addSequential(new AutoDriveStraight(() -> -0.7,2.0));
+    	addSequential(new AutoDriveStraight(() -> -0.8,1.0));
     	//addSequential(new AutoDriveStraight(() -> 0.5 , 0.25));
     	addParallel(new EnableDoor());
     	addSequential(new AutoDriveStraight(() -> 0.01,1.5));
-    	addSequential(new DriveDistance(-60.0, 0.6, Gear.LOW, true));
+    	addParallel(new DriveDistance(-40.0, 0.9, Gear.LOW, true));
     	addSequential(new AutoShoot(() -> 3600,10.0));
     }
 }

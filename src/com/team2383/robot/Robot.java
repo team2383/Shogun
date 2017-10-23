@@ -42,16 +42,15 @@ public class Robot extends IterativeRobot {
 		OI oi = new OI();
 		
 		autoChooser = new SendableChooser<Command>();
-		//autoChooser.addObject("null auto", new NullAuto());
+		autoChooser.addDefault("null auto", new NullAuto());
 		
-		//autoChooser.addDefault("Red Right Shoot Gear", new RedShootGear());
-		autoChooser.addDefault("Blue Left Shoot Gear", new BlueShootGear());
+		autoChooser.addObject("Red Right Shoot Gear", new RedShootGear());
+		autoChooser.addObject("Blue Left Shoot Gear", new BlueShootGear());
 
-		//autoChooser.addObject("Left Gear", new LeftGear());
-		//autoChooser.addObject("Middle Gear", new MiddleGear());
-		//autoChooser.addObject("Right Gear", new RightGear());
+		autoChooser.addObject("Left Gear", new LeftGear());
+		autoChooser.addObject("Middle Gear", new MiddleGear());
+		autoChooser.addObject("Right Gear", new RightGear());
 		
-		/*
 		autoChooser.addObject("Middle Gear Time", new MiddleGearTime());
 		autoChooser.addObject("Left Gear Time", new LeftGearTime());
 		autoChooser.addObject("Right Gear Time", new RightGearTime());
@@ -61,7 +60,6 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Right Wall Shot Far", new RightWallShotFar());
 		autoChooser.addObject("Right Wall Shot Close", new RightWallShotClose());
 		autoChooser.addObject("Right Gear Hopper", new RightGearHopper());
-		*/
 		
 		autoChooser.addObject("Test Drive", new TestDrive());
 		autoChooser.addObject("Test Turn", new TestTurn());

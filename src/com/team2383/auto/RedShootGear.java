@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
- */
+ */	
 public class RedShootGear extends CommandGroup {
 
     public RedShootGear() {
@@ -31,7 +31,7 @@ public class RedShootGear extends CommandGroup {
     	addSequential(new AutoDriveStraight(() -> -0.7,2.8));
     	addParallel(new EnableDoor());
     	addSequential(new AutoDriveStraight(() -> 0.05,0.5));
-    	addParallel(new DriveDistance(-60.0, 0.9, Gear.LOW, true));
+    	addParallel(new DriveDistance(-68.5, 0.9, Gear.LOW, true));
     	addSequential(new AutoShoot(() -> 3600,10.0));
     }
 }

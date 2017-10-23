@@ -42,14 +42,14 @@ public class Robot extends IterativeRobot {
 		OI oi = new OI();
 		
 		autoChooser = new SendableChooser<Command>();
-		autoChooser.addObject("null auto", new NullAuto());
+		//autoChooser.addObject("null auto", new NullAuto());
 		
-		autoChooser.addObject("Red Right Shoot Gear", new RedShootGear());
-		autoChooser.addObject("Blue Left Shoot Gear", new BlueShootGear());
+		//autoChooser.addDefault("Red Right Shoot Gear", new RedShootGear());
+		autoChooser.addDefault("Blue Left Shoot Gear", new BlueShootGear());
 
-		autoChooser.addObject("Left Gear", new LeftGear());
-		autoChooser.addObject("Middle Gear", new MiddleGear());
-		autoChooser.addObject("Right Gear", new RightGear());
+		//autoChooser.addObject("Left Gear", new LeftGear());
+		//autoChooser.addObject("Middle Gear", new MiddleGear());
+		//autoChooser.addObject("Right Gear", new RightGear());
 		
 		/*
 		autoChooser.addObject("Middle Gear Time", new MiddleGearTime());
